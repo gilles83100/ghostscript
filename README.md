@@ -544,7 +544,7 @@ En mode terminal, nous pouvons également utiliser des variables locales (`desti
 ```
 ### Python
 
-Nous allons créer un programme Python pour automatiser la réduction. 
+Nous allons créer un programme Python pour automatiser la réduction que nous appellerons [reduce_gs](/reduce_gs/README.md)
 
 # Avec Python
 
