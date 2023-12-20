@@ -1,5 +1,5 @@
 
-Les fichiers PDF sont devenus une norme pour les échanges de documents. Ces fichiers peuvent avoir un poids en octets conséquent notamment en raison de la présence d'images. S'il existe des solutions pour transmettre des fichiers lourds (Wetransfer par ex.) il peut s'avérer judicieux de reduire leur taille. Pour cela nous disposons de nombreuses solutions. Celles que nous allons étudier repose soit sur Ghostscript soit sur du code Python.
+Les fichiers PDF sont devenus une norme pour les échanges de documents. Ces fichiers peuvent avoir un poids en octets conséquent notamment en raison de la présence d'images. S'il existe des solutions pour transmettre des fichiers lourds ([WeTransfer](https://wetransfer.com/) par ex.) il peut s'avérer judicieux de reduire leur taille. Pour cela nous disposons de nombreuses solutions. Celles que nous allons étudier reposent soit sur Ghostscript soit sur du code Python.
 
 # Avec Ghostscript
 
@@ -7,15 +7,15 @@ Les fichiers PDF sont devenus une norme pour les échanges de documents. Ces fic
 
 ### Windows
 
-Nous installons Ghostscript à partir de la page de téléchargement. Sous Windows 11 nous choisissons la version 64 bit.
+Nous installons Ghostscript à partir de la page de [téléchargement](https://www.ghostscript.com/releases/gsdnld.html). Sous Windows 11 nous choisissons la version 64 bit.
 
-La version est installée dans le dossier `C:\Program Files\gs`. A l'intérieur un sous-repertoire pour la version installée. Par exemple, un sous répertoire `gs10.02.1`.
+La version est installée dans le dossier `C:\Program Files\gs`. A l'intérieur un sous-repertoire pour la version installée. Par exemple, un sous-répertoire `gs10.02.1`.
 
 Dans un sous-répertoire `bin`, nous avons deux exécutables :
 * `gswin64.exe` qui ouvre Ghostscript dans une fenêtre
 * `gswin64c.exe` qui ouvre Ghostscript dans le terminal
 
-Par exemple pour ouvrir ghostscript dans Powershell nous utiliserons un de ces exécutables.
+Par exemple pour ouvrir Ghostscript dans Powershell nous utiliserons un de ces exécutables.
 
 ```powershell
 PS C:\Users\gilles> & 'C:\Program Files\gs\gs10.00.0\bin\gswin64c.exe'
