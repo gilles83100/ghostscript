@@ -97,19 +97,19 @@ if __name__ == "__main__":
     parser.add_argument("-d","--dpi", help="Points par pouce (défaut=150)",type=int,default=150)
     parser.add_argument("-v","--version", help="Version du document PDF (défaut=1.4)",type=str,default="1.4",)
     parser.add_argument("-r","--replace", help="Points par pouce (défaut=150)",type=bool,default=False)
-    args = parser.parse_args()
-    if ghostscript is None:
-        print("Ghostscript n'a pas été trouvé. Veuillez l'installer.")
-    elif os.path.exists(args.source):
-        try:
+    try:
+        args = parser.parse_args()
+        if ghostscript is None:
+            print("Ghostscript n'a pas été trouvé. Veuillez l'installer.")
+        elif os.path.exists(args.source):       
             if not os.path.exists(args.destination):
                 os.makedirs(args.destination)
             nbr_file,source_size,dest_size = reduction(dossierSource=args.source, 
                                                     dossierDestination=args.destination, 
-                                                    dpi=args.dpi, version=args.version, replace=args.replace)
-            
+                                                        dpi=args.dpi, version=args.version, replace=args.replace)
+                
             print(f"Nbr de fichiers: {nbr_file}\tSources: {source_size / (1024*1024):.2f} mbytes\tDestinations: {dest_size / (1024*1024):.2f} mbytes soit gain de {max(0,1-(dest_size/source_size)):.2%}")
-        except ZeroDivisionError:
-            print("Aucun fichier n'a été traité")
-        except Exception as e:
-            print(e)
+    except ZeroDivisionError:
+        print("Aucun fichier n'a été traité")
+    except Exception as e:
+        print(e)
