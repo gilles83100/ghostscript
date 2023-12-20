@@ -18,7 +18,7 @@ Dans un sous-répertoire `bin`, nous avons deux exécutables :
 Par exemple pour ouvrir ghostscript dans Powershell nous utiliserons un de ces exécutables.
 
 ```powershell
-PS C:\Users\gille> & 'C:\Program Files\gs\gs10.00.0\bin\gswin64c.exe'
+PS C:\Users\gilles> & 'C:\Program Files\gs\gs10.00.0\bin\gswin64c.exe'
 GPL Ghostscript 10.0.0 (2022-09-21)
 Copyright (C) 2022 Artifex Software, Inc.  All rights reserved.
 This software is supplied under the GNU AGPLv3 and comes with NO WARRANTY:
@@ -157,8 +157,6 @@ En résumé, nous pouvons exécuter les commandes suivantes :
 Ghostscript est une logiciel en ligne de commandes. Par défaut, il va s'exécuter en mode interactif. L'utilisateur doit entrer les commandes à la suite d'un prompt et les valider par appui sur la touche entrée. Pour sortir de ce mode, il faut taper la commande `quit`.
 
 Pour ce qui nous concerne il est plus intéressant de l'utiliser en mode shell, sans interaction. A la suite du nom de la commande Ghostscript (par ex. `gs`) nous saisirons une suite de paramètres et d'arguments, ainsi que le nom des fichiers à traiter en entrée et en sortie.
-
-[](https://ghostscript.readthedocs.io/en/gs10.01.1/VectorDevices.html#distiller-parameters)
 
 Commandes | Descriptions
 --- | ---
