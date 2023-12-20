@@ -546,7 +546,7 @@ En mode terminal, nous pouvons également utiliser des variables locales (`desti
 ```
 ### Python
 
-
+Nous allons créer un programme Python pour automatiser la réduction. 
 
 # Avec Python
 
