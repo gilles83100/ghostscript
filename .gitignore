@@ -1,0 +1,21 @@
+# Fichiers développement
+.vscode
+.venv
+
+# Fichiers de construction exécutable
+Build/
+release/
+output/
+dist/
+*.spec
+
+# Fichiers systèmes
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.swp
+Thumbs.db
+ehtthumbs.db
+
