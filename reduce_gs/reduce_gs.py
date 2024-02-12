@@ -14,7 +14,9 @@
 import os, subprocess, re, shutil, argparse
 from platform import system
 
-from alive_progress import alive_bar
+# pip install progressbar2
+from progressbar import ProgressBar
+
 
 if system() in [ 'Linux', 'Darwin']:
     ghostscript = shutil.which("gs")
@@ -31,16 +33,20 @@ def numberOfPage(source):
     return 0
 
 def cli(cmd,source,pages):
-    fichier = "[{:^20s}] ".format(os.path.basename(source)[:20])
-    with alive_bar(int(pages), title=fichier) as bar:
-        p = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
-        while True:
-            chunk = p.stdout.readline()
-            if chunk=='':
-                break
-            m = re.search("Page (?P<page>[0-9]{1,})",chunk)
-            if m:
-                bar()
+        page=0
+        fichier = "[{:^20s}] ".format(os.path.basename(source)[:20])
+        with ProgressBar(prefix=fichier,max_value=int(pages)) as progress:
+            p = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
+            while True:
+                chunk = p.stdout.readline()
+                if chunk=='':
+                    break
+                m = re.search("Page (?P<page>[0-9]{1,})",chunk)
+                if m:
+                    progress.update(page)
+                    page+=1
+                    #print(m.group('page'))
+
 
 def reduction(dossierSource, dossierDestination, dpi=150, version="1.4", replace=False):
     global ghostscript
@@ -52,12 +58,12 @@ def reduction(dossierSource, dossierDestination, dpi=150, version="1.4", replace
         fichiers = [file for file in files if os.path.splitext(file)[1]==".pdf"]
         for fichier in fichiers:
             source = os.path.join(path, fichier)
-            destination = source.replace(os.path.dirname(source),dossierDestination)
+            destination = source.replace(dossierSource,dossierDestination)
             
             if os.path.exists(destination) and not replace:
                 continue
 
-            destinationFinale = destination
+            destinationFinale= destination
             if replace:
                 destination=re.sub('(?i)'+re.escape(".pdf"), lambda m:  ".tmp", destination)
 
@@ -74,12 +80,9 @@ def reduction(dossierSource, dossierDestination, dpi=150, version="1.4", replace
                 if replace and os.path.exists(destinationFinale):
                     os.remove(destinationFinale)
                     shutil.move(destination,destinationFinale)
-                elif replace:
-                    shutil.move(destination,destinationFinale)
-                    
+            
             except FileNotFoundError:
-                if os.path.exists(source):
-                    shutil.copyfile(source,destination)
+                shutil.copyfile(source,destination)
             except Exception as e:
                 print(e)
 
@@ -88,29 +91,25 @@ def reduction(dossierSource, dossierDestination, dpi=150, version="1.4", replace
     return nbr_file,source_size,dest_size 
 
 if __name__ == "__main__":
-    description="Réduction de la taille des fichiers PDF"
-    parser = argparse.ArgumentParser(description=description,exit_on_error=False)
+    parser = argparse.ArgumentParser()
     parser.add_argument("source", help="Dossier source",type=str)
     parser.add_argument("destination", help="Dossier de destination",type=str)
     parser.add_argument("-d","--dpi", help="Points par pouce (défaut=150)",type=int,default=150)
     parser.add_argument("-v","--version", help="Version du document PDF (défaut=1.4)",type=str,default="1.4",)
-    parser.add_argument("-r","--replace", help="Points par pouce (défaut=150)",type=str, choices=['o','oui','y', 'yes', 'n','non','no'],default='n')
-    try:
-        args = parser.parse_args()
-        replace = False if args.replace.startswith("n") else True
-        if ghostscript is None:
-            print("Ghostscript n'a pas été trouvé. Veuillez l'installer.")
-        elif os.path.exists(args.source):       
+    parser.add_argument("-r","--replace", help="Points par pouce (défaut=150)",type=bool,default=False)
+    args = parser.parse_args()
+    if ghostscript is None:
+        print("Ghostscript n'a pas été trouvé. Veuillez l'installer.")
+    elif os.path.exists(args.source):
+        try:
             if not os.path.exists(args.destination):
                 os.makedirs(args.destination)
             nbr_file,source_size,dest_size = reduction(dossierSource=args.source, 
                                                     dossierDestination=args.destination, 
-                                                        dpi=args.dpi, version=args.version, replace=replace)
-                
+                                                    dpi=args.dpi, version=args.version, replace=args.replace)
+            
             print(f"Nbr de fichiers: {nbr_file}\tSources: {source_size / (1024*1024):.2f} mbytes\tDestinations: {dest_size / (1024*1024):.2f} mbytes soit gain de {max(0,1-(dest_size/source_size)):.2%}")
-    except argparse.ArgumentError as e:
-        print(e)
-    except ZeroDivisionError:
-        print("Aucun fichier n'a été traité")
-    except Exception as e:
-        print(e)
+        except ZeroDivisionError:
+            print("Aucun fichier n'a été traité")
+        except Exception as e:
+            print(e)
