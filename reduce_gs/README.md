@@ -1,6 +1,6 @@
 # Installation du script Python
 
-## Windows
+### Windows
 
 Pour exécuter cette application, il est fortement conseillé de créer un environnement virtuel.
 
@@ -22,13 +22,15 @@ setuptools        65.5.0
 
 Pour fonctionner ce script a besoin de bibliothèques auxiliaires. Nous pouvons les installer directement par une commande `pip`.
 
-```bash
-python install alive-progress
+```powershell
+(.venv) PS C:\Users\gilles\Documents\Python Scripts\pdf> python install tqdm tabulate
 ```
+
 Nous pouvons aussi utiliser un fichier texte que nous appelerons `requirements.txt` auquel nous ajouterons la ligne suivante :
 
 ```python
-alive-progress==3.1.5
+tqdm==4.66.2
+tabulate
 ```
 
 Pour installer les bibliothèques, nous utiliserons le fichier `requirements.txt` avec la commande `pip`.
@@ -37,29 +39,178 @@ Pour installer les bibliothèques, nous utiliserons le fichier `requirements.txt
 (.venv) PS C:\Users\gilles\Documents\Python Scripts\pdf> pip install -r requirements.txt
 ```
 
-## Mac OS
+### Mac OS
+
+Dans le système d'Apple nous allons utiliser l'environnement Python _Conda_. Nous pouvons utiliser les distributions _Anaconda_ ou Miniconda pour utiliser _Conda_. Elles sont compatibles avec tous les systèmes d'exploitation (Windows, Mac Os ou Linux). Cela permet une meilleure intégration d'un environnement de travail Python.
+
+Une fois installée, nous allons travailler dans des environnements virtuels. Pour obtenir la liste des environnements présents sur le système, nous utiliserons dans le Terminal les instructions qui suivent :
+
+```bash
+% conda env list
+```
+
+ou
+
+```bash
+% conda info --envs
+```
+
+Nous pouvons également obtenir des informations sur l'environnement. Ici, nous sommes en présence d'un environnement sous Mac OS Silicon (arm).
+
+```bash
+% conda info
+	active environment : base
+	active env location : /Users/gilles/opt/anaconda3
+	shell level : 1
+	user config file : /Users/gilles/.condarc
+	populated config files : /Users/gilles/.condarc
+	conda version : 4.13.0
+	conda-build version : 3.21.8
+	python version : 3.9.12.final.0
+	virtual packages : __osx=13.3.1=0
+	__unix=0=0
+	__archspec=1=arm64
+	base environment : /Users/gilles/opt/anaconda3  (writable)
+	conda av data dir : /Users/gilles/opt/anaconda3/etc/conda
+	conda av metadata url : None
+	channel URLs : https://repo.anaconda.com/pkgs/main/osx-arm64
+	https://repo.anaconda.com/pkgs/main/noarch
+	https://repo.anaconda.com/pkgs/r/osx-arm64
+	https://repo.anaconda.com/pkgs/r/noarch
+	package cache : /Users/gilles/opt/anaconda3/pkgs
+	/Users/gilles/.conda/pkgs
+	envs directories : /Users/gilles/opt/anaconda3/envs
+	/Users/gilles/.conda/envs
+	platform : osx-arm64
+	user-agent : conda/4.13.0 requests/2.27.1 CPython/3.9.12 Darwin/22.4.0 OSX/13.3.1
+	UID:GID : 501:20
+	netrc file : None
+	offline mode : False
+```
+
+L'environnement de développement Python peut être mis à jour.
+
+```bash
+% conda update conda
+```
+
+Si nous utilisons la distribution _Anaconda_, nous pouvons également utiliser la commande suivante :
+
+```bash
+% conda update anaconda
+```
+
+Pour développer, nous devons créer un environnement virtuel. Pour cela, nous utilisons la commande create, suivi de l'argument `-n` pour donner un nom à l'environnement. Optionnellement, nous pouvons définir la version de Python à installer.
+
+```bash
+% conda create -n reduce_pdf python=3.11
+```
+
+ou
+
+```bash
+% conda create --name reduce_pdf python=3.11
+```
+
+Nous pouvons également intégrer des bibliothèques à la création de l'environnement. `-c conda-forge` est utilisé pour définir le dépôt de bibliothèque à utiliser.
+
+```bash
+% conda create -n reduce_pdf -c conda-forge python=3.11 tqdm tabulate
+```
+
+Une bibliothèque peut être installée par la suite lorsque l'environnement est en cours d'utilisation.
+
+```bash
+% conda install -c conda-forge tqdm tabulate
+```
+
+Si nous souhaitons mettre à jour un package spécifique nous utiliserons la commande `update` suivi du ou des noms de packages.
+
+```bash
+% conda update tdqm
+```
+
+Les dépendances (packages) sont également mises à jour. Tout est automatique, il n'est pas nécessaire de s'en inquiéter. `update` propose quelques options supplémentaires :
+
+* `--no-deps` pour ne pas mettre à jour les dépendances
+* `--force-reinstall` pour forcer la mise à jour même si le package est à jour
+* `--dry-run` pour simuler la mise à jour
+* `--yes` pour répondre automatiquement oui à toute question
+
+La mise à jour de tous les packages d'un environnement se fait de cette manière.
+
+```bash
+% conda update -all
+```
+
+L'utilisation d'un environnement nécessite son activation. Pour faire cela, nous avons la commande :
+
+```bash
+% conda activate reduce_pdf
+```
+
+Pour quitter l'environnement nous procéderons comme suit :
+
+```bash
+% conda deactivate
+```
+
+Pour supprimer un environnement de développement :
+
+```bash
+% conda env remove --name reduce_pdf
+```
+
+Pour supprimer tous les environnements à un emplacement spécifique, nous utiliserons l'argument `--prefix`.
+
+```bash
+%  conda env remove --prefix /Users/gilles/envs
+```
 
 # Utilisation
 
 Pour afficher l'aide de la commande nous ajoutons le paramètre `-h`.
 
-```powershell
-(.venv) PS C:\Users\gilles\Documents\Python Scripts\pdf> python .\reduce_gs\reduce_gs.py -h
-usage: reduce_gs.py [-h] [-d DPI] [-v VERSION] [-r REPLACE] source destination
+```bash
+(.venv) gilles@MacStuddeGilles reduce_gs % python reduce_gs.py 
+usage: reduce_gs.py [-h] [-d DPI] [-p PASSWORD] [-v VERSION] [-r {o,oui,y,yes,n,non,no}] [-k {LeaveColorUnchanged,Gray,RGB,CMYK}] [-z {LZW,Flate,jpeg,RLE}] [-m {Subsample,Average,Bicubic}]
+                    [-e {a0,a1,a2,a3,a4,a4small,a5,a6,a7,a8,a9,a10,isob0,isob1,isob2,isob3,isob4,isob5,isob6,c0,c1,c2,c3,c4,c5,c6,11x17,ledger,legal,letter,lettersmall,arche,archd,archc,archb,archa,jisb0,jisb1,jisb2,jisb3,jisb4,jisb5,jisb6,flsa,flse,halfletter,hagaki}]
+                    [-s {ebook,printer,default,prepress,screen,PSL2Printer}] [-c CSV] [-o DESTINATION]
+                    source
+reduce_gs.py: error: the following arguments are required: source
+(.venv) gilles@MacStuddeGilles reduce_gs % python reduce_gs.py -h
+usage: reduce_gs.py [-h] [-d DPI] [-p PASSWORD] [-v VERSION] [-r {o,oui,y,yes,n,non,no}] [-k {LeaveColorUnchanged,Gray,RGB,CMYK}] [-z {LZW,Flate,jpeg,RLE}] [-m {Subsample,Average,Bicubic}]
+                    [-e {a0,a1,a2,a3,a4,a4small,a5,a6,a7,a8,a9,a10,isob0,isob1,isob2,isob3,isob4,isob5,isob6,c0,c1,c2,c3,c4,c5,c6,11x17,ledger,legal,letter,lettersmall,arche,archd,archc,archb,archa,jisb0,jisb1,jisb2,jisb3,jisb4,jisb5,jisb6,flsa,flse,halfletter,hagaki}]
+                    [-s {ebook,printer,default,prepress,screen,PSL2Printer}] [-c CSV] [-o DESTINATION]
+                    source
 
 Réduction de la taille des fichiers PDF
 
 positional arguments:
   source                Dossier source
-  destination           Dossier de destination
 
 options:
   -h, --help            show this help message and exit
-  -d DPI, --dpi DPI     Points par pouce (défaut=150)
+  -d DPI, --dpi DPI     Points par pouce
+  -p PASSWORD, --password PASSWORD
+                        Mot de passe pour les documents vérouillés
   -v VERSION, --version VERSION
                         Version du document PDF (défaut=1.4)
-  -r REPLACE, --replace REPLACE
-                        Points par pouce (défaut=150)
+  -r {o,oui,y,yes,n,non,no}, --replace {o,oui,y,yes,n,non,no}
+                        Remplacer les fichiers existants
+  -k {LeaveColorUnchanged,Gray,RGB,CMYK}, --strategy {LeaveColorUnchanged,Gray,RGB,CMYK}
+                        Stratégie de conversion des couleurs
+  -z {LZW,Flate,jpeg,RLE}, --compression {LZW,Flate,jpeg,RLE}
+                        Méthode de compression des images
+  -m {Subsample,Average,Bicubic}, --downsample {Subsample,Average,Bicubic}
+                        Méthode de transformation des images
+  -e {a0,a1,a2,a3,a4,a4small,a5,a6,a7,a8,a9,a10,isob0,isob1,isob2,isob3,isob4,isob5,isob6,c0,c1,c2,c3,c4,c5,c6,11x17,ledger,legal,letter,lettersmall,arche,archd,archc,archb,archa,jisb0,jisb1,jisb2,jisb3,jisb4,jisb5,jisb6,flsa,flse,halfletter,hagaki}, --papersize {a0,a1,a2,a3,a4,a4small,a5,a6,a7,a8,a9,a10,isob0,isob1,isob2,isob3,isob4,isob5,isob6,c0,c1,c2,c3,c4,c5,c6,11x17,ledger,legal,letter,lettersmall,arche,archd,archc,archb,archa,jisb0,jisb1,jisb2,jisb3,jisb4,jisb5,jisb6,flsa,flse,halfletter,hagaki}
+                        Appliquer à tout le document un format de page
+  -s {ebook,printer,default,prepress,screen,PSL2Printer}, --profile {ebook,printer,default,prepress,screen,PSL2Printer}
+                        Profile Distiller
+  -c CSV, --csv CSV     Enregistrer les informations dans un fichier CSV
+  -o DESTINATION, --destination DESTINATION
+                        Dossier de destination
 ```
 
 Pour fonctionner nous devons a minima préciser un dossier source et un dossier destination. Avec le script Python, nous procéderons comme suit :
@@ -68,16 +219,10 @@ Pour fonctionner nous devons a minima préciser un dossier source et un dossier 
 python reduce_gs.py ~/Documents/Factures /Users/gilles/Factures
 ```
 
-Avec le fichier exécutable, l'utilisation de la commande sera :
-
-```powershell
-reduce_gs.exe ~/Documents/Factures /Users/gilles/Factures
-```
-
 Avec le paramètre `-r` nous pouvons choisir de ne pas remplacer les fichiers existants dans le dossier destination. 
 
 ```powershell
-python reduce_gs.py  "C:\Users\gilles\OneDrive\Documents\Factures\" "C:\Users\gilles\Documents\Factures\" -r non
+python reduce_gs.py -r non -o "C:\Users\gilles\OneDrive\Documents\Factures\" "C:\Users\gilles\Documents\Factures\"
 ```
 
 Pour modifier la densité de points par pouce nous utiliserons le paramètre `-d` suivi de la valeur désirée. Rappelons nous que plus la valeur est basse, plus la qualité des images est dégradrée. Inversement, il est inutile d'augmenter les DPI au delà de la valeur utilisée par les images sources. 
