@@ -5,7 +5,7 @@
 ## reduction de la taille des PDF
 ##################################################
 ## Author: Gilles BIHAN
-## Copyright: Copyright 2024, Converio.fr
+## Copyright: © 2024, Converio.fr gilles-bihan.fr
 ## Version: 1.0.0
 ## Email: gilles.bihan@converio.fr
 ## Status: Dev
