@@ -99,7 +99,7 @@ Resolving deltas: 100% (182471/182471), done.
 Nous devons exécuter autogen.sh pour préparer localement le dépôt. Sous MacOs, nous devons au préalable installer via brew deux outils supplémentaires.
 
 ```bash
-% brew install autoconf automake
+gilles@MBP-de-Gilles % brew install autoconf automake
 ```
 
 Il nous reste à nous placer à la racine du dépôt local, et d'exécuter successivement 
@@ -167,7 +167,7 @@ Une fois installée, nous allons travailler dans des environnements virtuels. Po
 
 ```bash
 % conda env list
-``
+```
 
 ou
 
