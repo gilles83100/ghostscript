@@ -9,7 +9,9 @@ Les sources de version librairie partagée de Ghostscript sont disponibles de de
 * avec une archive TAR compressée disponible sur le site ; 
 * avec un dépôt distant à clôner localement.
 
-### Archive
+### MacOS
+
+#### Archive
 
 Le code source se télécharge à partir du site de [Ghostscript](https://ghostscript.com/releases/index.html). Il est commun pour toutes les plateformes (Windows, MacOs, Linux). Nous récupérons une archive TAR avec une compression GZIP. Le numéro de version est précisé dans le nom du fichier (`ghostscript-10.02.1.tar.gz` pour la version 10.02.1)
 
@@ -81,7 +83,7 @@ GPL Ghostscript 10.02.1 (2023-11-01)
 Copyright (C) 2023 Artifex Software, Inc.  All rights reserved.
 ```
 
-### Dépôt distant
+#### Dépôt distant
 
 Nous pouvons aussi compiler Ghostscript à partir d'un dépôt distant (Git). Bien entendu il faut au préalable avoir installé Git.
 
@@ -116,6 +118,55 @@ Pour synchroniser localement avec le dépôt distant nous exécuterons à la rac
 
 ```bash
 gilles@MBP-de-Gilles ghostpdl % git pull
+```
+### Windows
+
+Dans le dossier `Windows` de l'archive Ghostscript nous pouvons ouvrir dans Microsoft Visual Studio 2022 le fichier solution `GhostPDL.sln`. Pour obtenir la librairie nous devons générer la solution complète (Menu Générer -> Générer la solution) ou `Ctrl+Maj+B`. Par défaut, la version *debug* sera générée. Les fichiers résultants se trouveront dans le dossier `debugbin`.
+
+Avant d'exécuter le script Python, nous devons définir une variable d'environnement `GSAPI_LIB`. Dans Powershell nous procéderons comme cela :
+
+```powershell
+PS > $env:GSAPI_LIB="C:\Users\gilles\Downloads\ghostscript-10.02.1\debugbin\gsdll64.dll"
+```
+
+Pour obtenir la liste des variables d'environnement dans Powershell nous utiliseront la ligne qui suit :
+
+```powershell
+PS > dir env:
+```
+
+Dans Invite de commandes (cmd) nous utiliserons l'instruction `set` :
+
+```cmd
+> set GSAPI_LIBDIR=C:\Users\gilles\Downloads\ghostscript-10.02.1\debugbin\gsdll64.dll
+```
+
+Pour vérifier la présence de la variable nous utilisons sans argument l'instruction `set`.
+
+Pour le utilisateur de Visual Studio Code, nous pouvons définir la variable d'environnement `GSAPI_LIBDIR` dans le fichier de configuration. Pour cela, nous ajoutons une section `env`. 
+
+```json
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Débogueur Python : Fichier actuel",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "env": {
+                "GSAPI_LIBDIR": "C:\\Users\\gilles\\Downloads\\ghostscript-10.02.1\\debugbin",
+            },
+            "args": [
+                "--replace","--gray","-o","C:\\Users\\gilles\\Downloads\\pdf\\copies", "C:\\Users\\gille\\Downloads\\pdf"
+            ],
+        },
+    ]
+}
 ```
 
 ## Installation du script Python

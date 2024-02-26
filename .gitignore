@@ -25,3 +25,4 @@ libgs/libgs.dylib.10.02
 libgs/viewjpeg.ps
 libgs/__pycache__/gsapi.cpython-311.pyc
 libgs/gsapi.py
+libgs/gsdll64.dll

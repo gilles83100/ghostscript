@@ -73,14 +73,17 @@ def get_infos(fichier, password=""):
         else:
             stdout += s
         
-    gsapi.gsapi_set_stdio(instance, None, stdout_info, None)
-    gsapi.gsapi_set_arg_encoding(instance, gsapi.GS_ARG_ENCODING_UTF8)
-    gsapi.gsapi_add_control_path(instance, gsapi.GS_PERMIT_FILE_READING, fichier)
-    gsapi.gsapi_init_with_args(instance, parametres)
+    try:
+        gsapi.gsapi_set_stdio(instance, None, stdout_info, None)
+        gsapi.gsapi_set_arg_encoding(instance, gsapi.GS_ARG_ENCODING_UTF8)
+        gsapi.gsapi_add_control_path(instance, gsapi.GS_PERMIT_FILE_READING, fichier)
+        gsapi.gsapi_init_with_args(instance, parametres)
 
-    gsapi.gsapi_exit(instance)
-    gsapi.gsapi_delete_instance(instance)
-
+        gsapi.gsapi_exit(instance)
+    
+        gsapi.gsapi_delete_instance(instance)
+    except:
+        pass
     infos = {'pages':'0', '_CreationDate':''}
 
     infos['_CreationDate'] = datetime.strftime(datetime.now(timezone.utc).astimezone(get_localzone()), 'D:%Y%m%d%H%M%S%z')
@@ -271,24 +274,27 @@ def conversion(source, destination, args, tmpdirname):
     modDate = f"{modDate[:-2]}'{modDate[19:]}'"
     creationDate = infos["_CreationDate"][:23]
     parametres += ['-c', f"[{metadatas}/ModDate ({modDate}) /CreationDate ({creationDate}) /DOCINFO pdfmark"]
-    print(" ".join(parametres))
     with tqdm(total=int(pages)) as bar:
         bar.set_description_str(os.path.basename(source))
         instance = gsapi.gsapi_new_instance(0)
-    
-        gsapi.gsapi_set_stdio(instance, None, stdout_fn, stderr_fn)
-        gsapi.gsapi_set_arg_encoding(instance, gsapi.GS_ARG_ENCODING_UTF8)
-        gsapi.gsapi_add_control_path(instance, gsapi.GS_PERMIT_FILE_READING, tmpdirname)
-        gsapi.gsapi_init_with_args(instance, parametres)
+        try:
+            gsapi.gsapi_set_stdio(instance, None, stdout_fn, stderr_fn)
+            gsapi.gsapi_set_arg_encoding(instance, gsapi.GS_ARG_ENCODING_UTF8)
+            gsapi.gsapi_add_control_path(instance, gsapi.GS_PERMIT_FILE_READING, tmpdirname)
+            gsapi.gsapi_init_with_args(instance, parametres)
 
-        gsapi.gsapi_exit(instance)
-        gsapi.gsapi_delete_instance(instance)
-
+            gsapi.gsapi_exit(instance)
+            gsapi.gsapi_delete_instance(instance)
+        except:
+            pass
     if (os.path.exists(destination) and args.replace) or (not os.path.exists(destination)):
         shutil.copyfile(destinationTemp,destination)
 
 if __name__ == '__main__':
-    description = "Conversion de fichier au format PDF"
+    description = """
+    Conversion de fichier au format PDF
+    (2024 © Gilles Bihan http://www.gilles-bihan.fr)
+    """
     epilog = "Utilisation de libgs (https://ghostscript.com)"
     parser = argparse.ArgumentParser(description=description,epilog=epilog,exit_on_error=False)
     parser.add_argument('-v','--version', action='version', version='%(prog)s 1.0.0')
@@ -330,20 +336,20 @@ if __name__ == '__main__':
     try:
         if len(sys.argv)==1:
             parser.print_help()
-            exit(0)
+            sys.exit(0)
         args = parser.parse_args()
     
         with tempfile.TemporaryDirectory() as tmpdirname:
             if args.destination is None:
                 args.destination = os.path.expanduser( '~' ) # Dossier utilisateur actif
-                args.destination = "/Users/gilles/Downloads/pdf1"
+                os.path.join(os.path.expanduser( '~' ),"Downloads\\pdf\\test")
             if len(args.source)==1:
                 source = args.source[0]
                 if not os.path.exists(source):
                     sys.stderr.write(RED)
                     sys.stderr.write(f"'{source}' ne peut être utilisé")
                     sys.stderr.write(RESET)
-                    exit(0)
+                    sys.exit(0)
                 elif os.path.isdir(args.destination):
                     if os.path.isfile(source):
                         # fichier source -> dossier destination
