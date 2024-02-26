@@ -1,4 +1,8 @@
-# Installation du script Python
+# Interfacer Ghostscript avec Python
+
+Ghostscript dans sa version exécutable binaire est utilisé avec Python pour manipuler les fichiers PDF. Le script proposé va convertir par lot un dossier complet vers un dossier de destination.
+
+## Installation du script Python
 
 ### Windows
 
@@ -167,7 +171,7 @@ Pour supprimer tous les environnements à un emplacement spécifique, nous utili
 %  conda env remove --prefix /Users/gilles/envs
 ```
 
-# Utilisation
+## Utilisation
 
 Pour afficher l'aide de la commande nous ajoutons le paramètre `-h`.
 
@@ -216,18 +220,52 @@ options:
 Pour fonctionner nous devons a minima préciser un dossier source et un dossier destination. Avec le script Python, nous procéderons comme suit :
 
 ```bash
-python reduce_gs.py ~/Documents/Factures /Users/gilles/Factures
+% python reduce_gs.py -o "/Users/gilles/Downloads/destination" "/Users/gilles/Downloads/source"
 ```
 
 Avec le paramètre `-r` nous pouvons choisir de ne pas remplacer les fichiers existants dans le dossier destination. 
 
-```powershell
-python reduce_gs.py -r non -o "C:\Users\gilles\OneDrive\Documents\Factures\" "C:\Users\gilles\Documents\Factures\"
+```bash
+% python reduce_gs.py -r o -o "/Users/gilles/Downloads/destination" "/Users/gilles/Downloads/source"
 ```
 
-Pour modifier la densité de points par pouce nous utiliserons le paramètre `-d` suivi de la valeur désirée. Rappelons nous que plus la valeur est basse, plus la qualité des images est dégradrée. Inversement, il est inutile d'augmenter les DPI au delà de la valeur utilisée par les images sources. 
+Certains documents peuvent avoir plusieurs formats de page. Il est possible de contraindre à un format particulier toutes les pages d'un document avec l'option `--papersize a5` avec en argument le format standardisé (par. `a5` ou `letter`)
 
-> Dans Windows, l'accès a un disque réseau nécessite dans Powershell de se connecter avec des identifiants valides. Pour cela nous devons au préalable lancer la ligne sui suit :
+```bash
+% python reduce_gs.py --papersize a5 -r o -o "/Users/gilles/Downloads/destination" "/Users/gilles/Downloads/source"
+```
+
+Pour alléger un document, nous pouvons modifier la densité de points par pouce. Pour cela nous utiliserons le paramètre `-d`  ou `--dpi` suivi de la valeur de densité désirée. Rappelons nous que plus la valeur est basse, plus la qualité des images est dégradrée. Inversement, il est inutile d'augmenter les DPI au delà de la valeur utilisée par les images sources.
+
+```bash
+% python reduce_gs.py --dpi 100 --papersize letter -r o -o "/Users/gilles/Downloads/destination" "/Users/gilles/Downloads/source"
+```
+
+Pour améliorer la réduction en kilo-octets (et donc faciliter l'envoi), nous pouvons choisir un format de compression et un passage en niveau de gris pour le document. Avec cette approche, les gains seront importants.
+
+```bash
+% python reduce_gs.py --dpi 100 --papersize letter --strategy Gray --compression LZW -r o -o "/Users/gilles/Downloads/destination" "/Users/gilles/Downloads/source"
+```
+
+Enfin, nous pouvons une liste des fichiers sources dans un tableau. Pour cela nous ne mettons en options que le dossier source. A noter que les dimensions affichées sont évaluées à partir de la première page du document.
+
+```bash
+% python reduce_gs.py "/Users/gilles/Downloads/pdf1"                                                                                           
+Fichiers       Auteurs    Titres     Sujets    Mot-clefs    Créateurs            Producteurs      Dates modifications            Dates creations                  Pages  Dimensions
+-------------  ---------  ---------  --------  -----------  -------------------  ---------------  -----------------------------  -----------------------------  -------  -------------------
+dossier.pdf    gilles     dossier    n/a       n/a          OmniPage CSDK 20.2   GPL Ghostscript  21/02/2024 17:20:51 UTC+01:00  14/02/2024 15:30:58                239  20.57 cm x 29.44 cm
+                                                                                 10.02.1
+-------------  ---------  ---------  --------  -----------  -------------------  ---------------  -----------------------------  -----------------------------  -------  -------------------
+expertise.pdf  gilles     expertise  n/a       n/a          Gilles               GPL Ghostscript  21/02/2024 17:22:00 UTC+01:00  09/02/2024 07:11:27                174  20.99 cm x 29.70 cm
+                                                                                 10.02.1
+-------------  ---------  ---------  --------  -----------  -------------------  ---------------  -----------------------------  -----------------------------  -------  -------------------
+relevés.pdf    gilles     relevés    n/a       n/a          Adobe InDesign 17.4  GPL Ghostscript  21/02/2024 17:22:50 UTC+01:00  27/06/2023 14:23:22 UTC+05:30      366  19.05 cm x 23.50 cm
+                                                            (Windows)            10.02.1
+-------------  ---------  ---------  --------  -----------  -------------------  ---------------  -----------------------------  -----------------------------  -------  -------------------
+```
+
+> Dans Windows, l'accès a un disque réseau nécessite dans Powershell de se connecter avec des identifiants valides. Pour cela nous devons au préalable lancer la ligne suivante :
+>
 > ```powershell
 > net use \\192.168.1.14\mondisque /user:gilles
 > ```

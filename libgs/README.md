@@ -298,7 +298,7 @@ Nous devons également copier le fichier `gsapi.py` du dossier `demos/python` de
 
 Le dossier contenant le script `gs.py` doit comporter a minima les fichiers suivants.
 
-```
+```text
 libgs
 ├── README.md
 ├── gs.py
@@ -314,42 +314,173 @@ Pour afficher l'aide de la commande nous ajoutons le paramètre `-h`.
 
 ```bash
 python3 ./ghostscript/libgs/gs.py -h
-usage: gs.py [-h] [-o DESTINATION] [-r {o,oui,y,yes,n,non,no}] [-p PASSWORD] [-d DPI] [-v VERSION] [-k {Gray,RGB,CMYK}] [-z {LZW,Flate,jpeg,RLE}] [-m {Subsample,Average,Bicubic}]
-             [-e {a0,a1,a2,a3,a4,a4small,a5,a6,a7,a8,a9,a10,isob0,isob1,isob2,isob3,isob4,isob5,isob6,c0,c1,c2,c3,c4,c5,c6,11x17,ledger,legal,letter,lettersmall,arche,archd,archc,archb,archa,jisb0,jisb1,jisb2,jisb3,jisb4,jisb5,jisb6,flsa,flse,halfletter,hagaki}]
-             [-s {ebook,printer,default,prepress,screen,PSL2Printer}] [-i] [--title TITLE] [--author AUTHOR] [--subject SUBJECT] [--keywords KEYWORDS] [--creator CREATOR] [--producer PRODUCER]
-             source
+usage: gscli.py [-h] [-v] [-o DESTINATION] [--replace | --no-replace] [--recursive | --no-recursive] [-p PASSWORD] [--lockpwd LOCKPWD] [--admpwd ADMPWD] [--permissions [{print,change,extract,fill,copy,annotation,quality,none} ...]] [-d DPI] [-r RELEASE] [--strategy {Gray,RGB,CMYK}]
+                [--gray [STRATEGY]] [--rgb [STRATEGY]] [--cmyk [STRATEGY]] [--compression {LZW,Flate,jpeg,RLE}] [--lzw [COMPRESSION]] [--flate [COMPRESSION]] [--jpeg [COMPRESSION]] [--rle [COMPRESSION]] [--downsample {Subsample,Average,Bicubic}] [--subsample [DOWNSAMPLE]]
+                [--average [DOWNSAMPLE]] [--bicubic [DOWNSAMPLE]]
+                [--papersize {a0,a1,a2,a3,a4,a4small,a5,a6,a7,a8,a9,a10,isob0,isob1,isob2,isob3,isob4,isob5,isob6,c0,c1,c2,c3,c4,c5,c6,11x17,ledger,legal,letter,lettersmall,arche,archd,archc,archb,archa,jisb0,jisb1,jisb2,jisb3,jisb4,jisb5,jisb6,flsa,flse,halfletter,hagaki}]
+                [--profile {printer,default,prepress,screen,PSL2Printer,ebook}] [-i] [--title TITLE] [--author AUTHOR] [--subject SUBJECT] [--keywords KEYWORDS] [--creator CREATOR] [--producer PRODUCER] [--csv CSV] [--delimiter DELIMITER]
+                [source ...]
 
-Conversion avec PDF
+Conversion de fichier au format PDF
 
 positional arguments:
   source                Fichier source
 
 options:
   -h, --help            show this help message and exit
+  -v, --version         show program's version number and exit
   -o DESTINATION, --destination DESTINATION
-                        Dossier de destination
-  -r {o,oui,y,yes,n,non,no}, --replace {o,oui,y,yes,n,non,no}
-                        Remplacer les fichiers existants
+                        Fichier ou Dossier de destination
+  --replace, --no-replace
+                        Remplacement des fichiers existants
+  --recursive, --no-recursive
+                        Recherche dans les dossiers et sous-dossiers
   -p PASSWORD, --password PASSWORD
                         Mot de passe pour les documents vérouillés
+  --lockpwd LOCKPWD     Mot de passe pour vérouiller l'ouverture du document
+  --admpwd ADMPWD       Mot de passe du propriétaire du document
+  --permissions [{print,change,extract,fill,copy,annotation,quality,none} ...]
+                        Permissions accordés
   -d DPI, --dpi DPI     Points par pouce
-  -v VERSION, --version VERSION
+  -r RELEASE, --release RELEASE
                         Version du document PDF (défaut=1.4)
-  -k {Gray,RGB,CMYK}, --strategy {Gray,RGB,CMYK}
+  --strategy {Gray,RGB,CMYK}
                         Stratégie de conversion des couleurs
-  -z {LZW,Flate,jpeg,RLE}, --compression {LZW,Flate,jpeg,RLE}
+  --gray [STRATEGY]     Conversion en niveaux de gris (8 bits)
+  --rgb [STRATEGY]      Conversion en couleurs (24 bits)
+  --cmyk [STRATEGY]     Conversion en CMYK (32 bits)
+  --compression {LZW,Flate,jpeg,RLE}
                         Méthode de compression des images
-  -m {Subsample,Average,Bicubic}, --downsample {Subsample,Average,Bicubic}
-                        Méthode de transformation des images
-  -e {a0,a1,a2,a3,a4,a4small,a5,a6,a7,a8,a9,a10,isob0,isob1,isob2,isob3,isob4,isob5,isob6,c0,c1,c2,c3,c4,c5,c6,11x17,ledger,legal,letter,lettersmall,arche,archd,archc,archb,archa,jisb0,jisb1,jisb2,jisb3,jisb4,jisb5,jisb6,flsa,flse,halfletter,hagaki}, --papersize {a0,a1,a2,a3,a4,a4small,a5,a6,a7,a8,a9,a10,isob0,isob1,isob2,isob3,isob4,isob5,isob6,c0,c1,c2,c3,c4,c5,c6,11x17,ledger,legal,letter,lettersmall,arche,archd,archc,archb,archa,jisb0,jisb1,jisb2,jisb3,jisb4,jisb5,jisb6,flsa,flse,halfletter,hagaki}
+  --lzw [COMPRESSION]   Compression sans perte
+  --flate [COMPRESSION]
+                        Compression sans perte basée sur GZIP/ZIP
+  --jpeg [COMPRESSION]  Compression avec perte
+  --rle [COMPRESSION]   Compression simple sans perte basée sur la répétition des données (run-length encoding ou RLE)
+  --downsample {Subsample,Average,Bicubic}
+                        Algorithme de rééchantillonage des images
+  --subsample [DOWNSAMPLE]
+                        Algorithme de rééchantillonage plus rapide
+  --average [DOWNSAMPLE]
+                        Algorithme de rééchantillonage intermédiaire
+  --bicubic [DOWNSAMPLE]
+                        Algorithme de rééchantillonage qualitatif (plus lent)
+  --papersize {a0,a1,a2,a3,a4,a4small,a5,a6,a7,a8,a9,a10,isob0,isob1,isob2,isob3,isob4,isob5,isob6,c0,c1,c2,c3,c4,c5,c6,11x17,ledger,legal,letter,lettersmall,arche,archd,archc,archb,archa,jisb0,jisb1,jisb2,jisb3,jisb4,jisb5,jisb6,flsa,flse,halfletter,hagaki}
                         Appliquer à tout le document un format de page
-  -s {ebook,printer,default,prepress,screen,PSL2Printer}, --profile {ebook,printer,default,prepress,screen,PSL2Printer}
+  --profile {printer,default,prepress,screen,PSL2Printer,ebook}
                         Profile Distiller
-  -i                    Informations sur le fichier
+  -i, --info            Informations sur le fichier
   --title TITLE         Titre du document
   --author AUTHOR       Auteur du document
   --subject SUBJECT     Sujet ou objet du document
-  --keywords KEYWORDS   Mots clefs séparés par une virgule et un espace (\ )
+  --keywords KEYWORDS   Mots clefs séparés par une virgule et un espace
   --creator CREATOR     Créateur
   --producer PRODUCER   Outil de création du document
+  --csv CSV             Enregistre les informations dans un fichier csv
+  --delimiter DELIMITER
+                        Délimiteur CSV
+
+Utilisation de libgs (https://ghostscript.com)
+```
+
+Pour afficher des informations sur un document PDF nous lancerons le script `gs.py` avec le nom du fichier en argument. 
+
+```bash
+% python3 ./gs.py "/Users/gilles/Downloads/dossier.pdf"
+Fichier: /Users/gilles/Downloads/dossier.pdf
+pages: 239
+width: 583.200012
+height: 834.47998
+size: 20.57 cm x 29.44 cm
+Author: gilles
+Title: dossier
+Subject: n/a
+Keywords: n/a
+Creator: OmniPage CSDK 20.2
+Producer: GPL Ghostscript 10.02.1
+ModDate: 21/02/2024 17:20:51 UTC+01:00
+CreationDate: 14/02/2024 15:30:58
+```
+
+Il est possible d'obtenir les informations pour tous les fichiers d'un dossier. Par exemple, pour le dossier `pdf`.
+
+```bash
+% python3 ./gs.py --info "/Users/gilles/Downloads/pdf"
+```
+
+Pour une exploitation des informations obtenues, il est possible de créer un fichier CSV pour une utilisation d'un outil tiers comme un tableur.
+
+```bash
+% python3 ./gs.py --info --csv "/Users/gilles/Downloads/infos.csv" "/Users/gilles/Downloads/pdf"
+```
+
+Par défaut, les colonnes du fichier CSV sont séparées par une tabulation `\t`. Avec l'option `--delimiter` nous définissons un délimiteur personnalisé.
+
+Pour faire une conversion simple, nous précisions un fichier de destination. Dans cet exemple, il n'y a aucune modification dans le fichier hormis la date de modification (`ModDate`).
+
+
+* 1 fichier source -> 1 fichier destination : le fichier source est converti vers un fichier destination.
+
+  ```bash
+  % python3 ./gs.py --replace --gray --destination "/Users/gilles/Downloads/dossier-gray.pdf" "/Users/gilles/Downloads/dossier.pdf"
   ```
+
+* dossier(s) sources(s) -> dossier destination : tous les fichiers du dossier source sont copiés dans le dossier destination. Les fichiers destination ne sont pas renommés. Par exemple nous faisons une convertion de tous les fichiers PDF du dossier `pdfs` vers le dossier `pdfs`. Si plusieurs dossiers sources sont indiqués, les fichiers PDF de chaque dossier sera converti dans le dossier de destination.
+
+  ```bash
+  % python3 ./gs.py --replace --gray --destination "/Users/gilles/Downloads/pdfs-gray" "/Users/gilles/Downloads/pdfs"
+  % python3 ./gs.py --replace --gray --destination "/Users/gilles/Downloads/pdfs-gray" "/Users/gilles/Downloads/pdf1" "/Users/gilles/Downloads/pdf2"
+  ```
+
+* Fichier(s) source(s) -> dossier destination : si le dossier destination n'existe pas il sera automatiquement créé. Par exemple, les fichiers sources sont précisés les uns après les autres comme paramètre source (ici `dossier.pdf` et `annexes.pdf`). Le dossier `pdfs-gray` accueillera les fichiers convertis.
+
+  ```bash
+  % python3 ./gs.py --replace --gray --destination "/Users/gilles/Downloads/pdfs-gray" "/Users/gilles/Downloads/dossier.pdf" "/Users/gilles/Downloads/annexes.pdf"
+  ```
+
+> Si la destination n'est pas définie, les fichiers seront copiés à la racine du dossier de l'utilisateur actif.
+
+Nous pouvons modifier les métadatas dans un nouveau fichier. Dans cet exemple nous allons donner un titre, un auteur ainsi que deux mots clefs. Chaque valeur de métadatas doit être passée en argument avec en début et fin des doubles guillemets. Chaque mot-clef doit être séparé par une virgule et un espace.
+
+```bash
+% python3 ./gs.py --title "Dossier" --author "Gilles" --keywords "dossier, projet" --destination "/Users/gilles/Downloads/pdf1/dossier-convertion.pdf" "/Users/gilles/Downloads/pdf1/dossier.pdf"
+```
+
+Les profils __Adobe Distiller__ sont utilisables en invoquant l'option `--profile` suivi de l'identifiant d'un des profils acceptés par Ghostscript (pour obtenir la liste, il faut afficher l'aide en ligne).
+
+```bash
+ % python3 ./gs.py --profile ebook --destination "/Users/gilles/Downloads/dossier-convertion.pdf" "/Users/gilles/Downloads/dossier.pdf"
+```
+
+Le document peut être converti en niveau de gris et les images adaptées à 100 DPI.
+
+```bash
+% python3 ./gs.py --strategy Gray --dpi 100 --destination "/Users/gilles/Downloads/dossier-convertion.pdf" "/Users/gilles/Downloads/dossier.pdf"
+```
+
+Par défaut le script Python ne supprime pas les fichiers de destination qui existent. Il faut donc ajouter `--replace` pour forcer le remplacement.
+
+Pour définir un mot de passe à l'ouverture d'un fichier, nous devons à la fois définir le mot de passe du propriétaire (_owner_) et le mot de passe de l'utilisateur.
+
+```bash
+ % python3 ./gs.py --profile ebook --lockpwd pwduser --admpwd pwdadmin  --destination "/Users/gilles/Downloads/dossier-convertion.pdf" "/Users/gilles/Downloads/dossier.pdf"
+```
+
+Nous pouvons aussi modifier les autorisations d'usage. Par exemple, le document peut être limité en lecture et impression.
+
+```bash
+ % python3 ./gs.py --profile ebook --lockpwd pwduser --admpwd pwdadmin --permissions print --destination "/Users/gilles/Downloads/dossier-convertion.pdf" "/Users/gilles/Downloads/dossier.pdf"
+```
+
+> Les mots de passe utilisateur et propriétaire doivent être différent.
+
+Le tableau qui suit récapitule les différentes autorisations.
+
+Autorisations | print | change | extract | fill | copy | annotation
+--- | :---: | :---: | :---: | :---: | :---: | :---: | 
+impression | ✓ | | | | | | 
+Copie du texte ou des graphisme | | | ✓ | | | |
+Modification des attributs du document | | ✓ | | ✓ | | ✓ |
+Insertion, rotation ou suppression de pages | | ✓ | | | | |
+Ajout d'annotations ou de signatures | | | | | | ✓ |
+Extraction du texte à des fins d'accessibilité | | | | | ✓ | |
+Remplissage des champs de formulaire existants | | | | ✓ | | ✓ |
