@@ -119,6 +119,29 @@ Pour synchroniser localement avec le dépôt distant nous exécuterons à la rac
 ```bash
 gilles@MBP-de-Gilles ghostpdl % git pull
 ```
+
+> Pour les utilisateurs de Visual Studio Code, pour référencer la librairie *libgs*, nous pouvons ajouter à une variable d'environnement `GSAPI_LIB` au fichier de configuration. Cette variable pointera sur le fichier.
+>
+>  ```json
+>  {
+>      // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
+>      // Pointez pour afficher la description des attributs existants.
+>      // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
+>      "version": "0.2.0",
+>      "configurations": [
+>          {
+>              "name": "Débogueur Python : Fichier actuel",
+>              "type": "debugpy",
+>              "request": "launch",
+>              "program": "${file}",
+>              "console": "integratedTerminal",
+>              "env": {
+>                  "GSAPI_LIB":"/Users/gilles/Downloads/ghostscript-10.02.1/sobin/libgs.dylib.10.02"
+>              }
+>          }
+>      ]
+>  }
+>  ```
 ### Windows
 
 Dans le dossier `Windows` de l'archive Ghostscript nous pouvons ouvrir dans Microsoft Visual Studio 2022 le fichier solution `GhostPDL.sln`. Pour obtenir la librairie nous devons générer la solution complète (Menu Générer -> Générer la solution) ou `Ctrl+Maj+B`. Par défaut, la version *debug* sera générée. Les fichiers résultants se trouveront dans le dossier `debugbin`.
@@ -143,31 +166,6 @@ Dans Invite de commandes (cmd) nous utiliserons l'instruction `set` :
 
 Pour vérifier la présence de la variable nous utilisons sans argument l'instruction `set`.
 
-Pour le utilisateur de Visual Studio Code, nous pouvons définir la variable d'environnement `GSAPI_LIBDIR` dans le fichier de configuration. Pour cela, nous ajoutons une section `env`. 
-
-```json
-{
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Débogueur Python : Fichier actuel",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "env": {
-                "GSAPI_LIBDIR": "C:\\Users\\gilles\\Downloads\\ghostscript-10.02.1\\debugbin",
-            },
-            "args": [
-                "--replace","--gray","-o","C:\\Users\\gilles\\Downloads\\pdf\\copies", "C:\\Users\\gille\\Downloads\\pdf"
-            ],
-        },
-    ]
-}
-```
 
 ## Installation du script Python
 
@@ -212,7 +210,7 @@ Pour installer les bibliothèques, nous utiliserons le fichier `requirements.txt
 
 ### Mac OS
 
-Dans le système d'Apple nous allons utiliser l'environnement Python _Conda_. Nous pouvons utiliser les distributions _Anaconda_ ou Miniconda pour utiliser _Conda_. Elles sont compatibles avec tous les systèmes d'exploitation (Windows, Mac Os ou Linux). Cela permet une meilleure intégration d'un environnement de travail Python.
+Dans le système d'Apple nous allons utiliser l'environnement Python _Conda_. Nous pouvons utiliser les distributions _Anaconda_ ou _Miniconda_ pour utiliser _Conda_. Elles sont compatibles avec tous les systèmes d'exploitation (Windows, Mac Os ou Linux). Cela permet une meilleure intégration d'un environnement de travail Python.
 
 Une fois installée, nous allons travailler dans des environnements virtuels. Pour obtenir la liste des environnements présents sur le système, nous utiliserons dans le Terminal les instructions qui suivent :
 
@@ -274,19 +272,19 @@ Si nous utilisons la distribution _Anaconda_, nous pouvons également utiliser l
 Pour développer, nous devons créer un environnement virtuel. Pour cela, nous utilisons la commande create, suivi de l'argument `-n` pour donner un nom à l'environnement. Optionnellement, nous pouvons définir la version de Python à installer.
 
 ```bash
-% conda create -n reduce_pdf python=3.11
+% conda create -n gscli python=3.11
 ```
 
 ou
 
 ```bash
-% conda create --name reduce_pdf python=3.11
+% conda create --name gscli python=3.11
 ```
 
 Nous pouvons également intégrer des bibliothèques à la création de l'environnement. `-c conda-forge` est utilisé pour définir le dépôt de bibliothèque à utiliser.
 
 ```bash
-% conda create -n reduce_pdf -c conda-forge python=3.11 tqdm
+% conda create -n gscli -c conda-forge python=3.11 tqdm
 ```
 
 Une bibliothèque peut être installée par la suite lorsque l'environnement est en cours d'utilisation.
@@ -317,7 +315,7 @@ La mise à jour de tous les packages d'un environnement se fait de cette manièr
 L'utilisation d'un environnement nécessite son activation. Pour faire cela, nous avons la commande :
 
 ```bash
-% conda activate reduce_pdf
+% conda activate gscli
 ```
 
 Pour quitter l'environnement nous procéderons comme suit :
@@ -329,7 +327,7 @@ Pour quitter l'environnement nous procéderons comme suit :
 Pour supprimer un environnement de développement :
 
 ```bash
-% conda env remove --name reduce_pdf
+% conda env remove --name gscli
 ```
 
 Pour supprimer tous les environnements à un emplacement spécifique, nous utiliserons l'argument `--prefix`.
@@ -358,6 +356,7 @@ libgs
 ├── libgs.dylib.10.02
 └── requirements.txt
 ```
+
 
 ## Utilisation
 
