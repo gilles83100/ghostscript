@@ -436,7 +436,7 @@ Les documents PDF peuvent être protégés en lecture, mais il est également po
 
 Pour les possesseurs de MacOS ces permissions sont visibles dans l'inspecteur (⌘I). 
 
-<figure><img src="https://gilles-bihan.fr/wp-content/uploads/2024/02/image.png" alt="Autorisations dans Aperçu (MacOS)" class="wp-image-988" style="width:500px"/></figure>
+<figure style="text-align:center;"><img src="img/image-2-832x480.png" alt="Autorisations dans Aperçu (MacOS)" style="width:500px;"/></figure>
 
 
 Techniquement, pour protéger un document PDF en modulant les permissions en fonction des actions autorisées, nous devons assigner à la variable `Permissions` une valeur sur 32 bits. Cette valeur est le résultat de l'activation ou non des bits. Le 1er bit est à droite.
@@ -654,9 +654,9 @@ Pour réduire le poids d'un document, une approche consiste à transformer toute
 
 Nous personnaliserons la ligne de commandes pour forcer ce type de conversion.
 
-* <code data-enlighter-language="bash" class="EnlighterJSRAW">-sColorConversionStrategy=Gray</code> pour appliquer une conversion vers du niveaux de gris à toutes les images.
-* <code data-enlighter-language="bash" class="EnlighterJSRAW">-dGrayImageResolution=100</code> pour modifier la densité de points par pouce (DPI ou nombre de points imprimés sur une ligne). Un pouce (inch) est égale à 2.54 cm. Une image de 10 cm x 5 cm aura pour une densité de 200 dpi aura environ 787 points en largeur (10 cm / 2.54 x 200 dpi). Plus la résolution en DPI est élevée, plus l'image sera volumineuse. A contrario, une résolution faible allégera le poids de l'image avec en contre-partie une détérioration de la qualité.
-*<code data-enlighter-language="bash" class="EnlighterJSRAW">-dDownsampleGrayImages=true</code> pour activer le changement de résolution.
+* `-sColorConversionStrategy=Gray` pour appliquer une conversion vers du niveaux de gris à toutes les images.
+* `-dGrayImageResolution=100` pour modifier la densité de points par pouce (DPI ou nombre de points imprimés sur une ligne). Un pouce (inch) est égale à 2.54 cm. Une image de 10 cm x 5 cm aura pour une densité de 200 dpi aura environ 787 points en largeur (10 cm / 2.54 x 200 dpi). Plus la résolution en DPI est élevée, plus l'image sera volumineuse. A contrario, une résolution faible allégera le poids de l'image avec en contre-partie une détérioration de la qualité.
+* `-dDownsampleGrayImages=true` pour activer le changement de résolution.
 
 Pour réduire la taille de l'image nous allons jouer sur le nombre de DPI.
 
@@ -664,14 +664,14 @@ Pour réduire la taille de l'image nous allons jouer sur le nombre de DPI.
 % gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -sColorConversionStrategy=Gray -dDownsampleGrayImages=true -dGrayImageResolution=100 -dCompatibilityLevel=1.4 -sOutputFile="/Users/gilles/Downloads/destination.pdf" "/Users/gilles/Downloads/source.pdf"
 ```
 
-Pour les utilisateurs de MacOS (et Linux) il est toujours possible d'intégrer une commande au shell. Avec le shell ZSH nous nous plaçons à la racine de l'utilisateur, et nous ouvrons le fichier `.zshrc` (pour Bash nous éditerons `.bash_profile`).
+Pour les utilisateurs de MacOS (et Linux) il est toujours possible d'intégrer une commande au shell. Avec le shell **ZSH** nous nous plaçons à la racine de l'utilisateur, et nous ouvrons le fichier `.zshrc` (pour **Bash** nous éditerons `.bash_profile`).
 
 ```bash
 % cd
 % nano .zshrc
 ```
 
-<figure><img src="https://gilles-bihan.fr/wp-content/uploads/2024/02/image-1-1024x683.png" alt="Ghostscript pdf adobe python" class="wp-image-990" style="width:600px"/></figure>
+<figure style="text-align:center;"><img src="img/image-1-1024x683.png" alt="Ghostscript pdf adobe python"  style="width:600px"/></figure>
 
 Nous ajoutons ensuite le code suivant à la fin du fichier. Pour sauvegarder nous faisons les touches CTRL+X puis Y et entrée.
 
@@ -690,22 +690,6 @@ Pour des documents PDF ne comportant que des objets textes, il est possible de f
 
 ```bash
 % gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dBlackText -dBlackVector -dCompatibilityLevel=2.0 -sOutputFile="/Users/gilles/Downloads/test-nb.pdf" -f "/Users/gilles/Downloads/test.pdf"
-```
-
-Pour les documents PDF comportant des images, la solution repose sur des opérations successives. La première consiste à utiliser le device 
-
-Device : pngmono, pngmonod, png16m, png16, png256, png48, pnggray
-
-```bash
-% mkdir img
-% gs -q -dBATCH -dNOPAUSE -sDEVICE=png16m -r300 -sOutputFile=img/out_%03d.png -f "/Volumes/seagate/Download/Ebook/Informatique/eni csharp 10 et visual studio code.pdf"
-```
-
-Récupère dans une variable toutes les images
-
-```bash
-% files=$(find ./img -type f -name "*.png")
-% sources="";for file in `find ./img -type f -name "*.jpg"`; do sources="${sources} (${file}) viewJPEG showpage" done
 ```
 
 <h3 id="ocr">Reconnaissance de caractères (OCR)</h3>
@@ -762,7 +746,7 @@ Il existe de nombreuses possibilités en matière d'automatisation. L'utilisatio
 
 <h4 id="automatisation-powershell">Windows Powershell</h4>
 
-Sous Windows, en utilisant **PowerShell** nous pouvons automatiser la réduction de la taille des fichiers. Nous créons un fichier texte <code data-enlighter-language="bash" class="EnlighterJSRAW">reduction.ps1</code> dans lequel nous intégrons ces lignes. Sans faire un cours sur PowerShell, notons les points suivants :
+Sous Windows, en utilisant **PowerShell** nous pouvons automatiser la réduction de la taille des fichiers. Nous créons un fichier texte `reduction.ps1` dans lequel nous intégrons ces lignes. Sans faire un cours sur PowerShell, notons les points suivants :
 
 * `Get-ChildItem` récupère dans un tableau tous les fichiers (y compris dans les sous-dossiers) avec extension `.pdf`.
 * `$gs` précise l'emplacement de Ghostscript.
@@ -784,11 +768,11 @@ ForEach ($file in $files) {
 }
 ```
 
->    Pour exécuter ce script dans **PowerShell** nous devons autoriser l'utilisateur actuel. Pour cela nous ouvrons le terminal en mode administrateur et nous tapons la commande suivante :
+> Pour exécuter ce script dans **PowerShell** nous devons autoriser l'utilisateur actuel. Pour cela nous ouvrons le terminal en mode administrateur et nous tapons la commande suivante :
 >
->   ```bash
->   PS C:\Users\gilles> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
->    ```
+> ```bash
+> PS C:\Users\gilles> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+> ```
 
 <h4 id="automatisation-shell-mac">Shell MacOS/Linux</h4>
 
@@ -869,7 +853,7 @@ Sous MacOS et Linux il existe de nombreuses autres possibilités pour automatise
 % find /Users/gilles/Downloads/pdf_source -type f -name "*.pdf" -exec bash -c 'destination="/Users/gilles/Downloads/pdf_destination/"$(basename "$0" .pdf); gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -sColorConversionStrategy=Gray -dDownsampleGrayImages=true -dGrayImageResolution=150 -dCompatibilityLevel=1.4 -o $destination".reduce.pdf" "$0";' {} \;
 ```
 
-En mode terminal, nous pouvons également utiliser des variables locales (<code data-enlighter-language="bash" class="EnlighterJSRAW">destinationDossier</code> et <code data-enlighter-language="bash" class="EnlighterJSRAW">sourceDossier</code>) pour renseigner la ligne de commandes.
+En mode terminal, nous pouvons également utiliser des variables locales (`destinationDossier` et `sourceDossier`) pour renseigner la ligne de commandes.
 
 ```bash
 % destinationDossier="/Users/gilles/Downloads/pdf_reduce/"
@@ -954,7 +938,7 @@ gilles@MBP-de-Gilles bin % file gs
 gs: Mach-O 64-bit executable arm64
 ```
 
-Pour lancer la compilation de la librairie partagée **Ghostscript**, nous exécuterons la commande `make so` dans le terminal. Pour nettoyer les fichiers de compilation, nous avons la commande `make soclean`. Les librairies compilées sont disponibles dans le dossier `sobin`. Sous Linux, nous trouverons des fichiers avec extension `so`. Par exemple pour la version 10.02, nous aurons la librairie `libgs.so.10.02`, et deux liens symboliques vers la librairie (`libgs.so` et `libgs.so.10`). Sous MacOs, les librairies auront une extension `dylib`. Pour la version 10.02 nous aurons la librairie `libgs.dylib.10.02` et deux liens symboliques (`libgs.dylib.10.02` ou `libgs.dylib.10`). Contrairement à l'exécutable `gs` (qui intègre la librairie dans l'exécutable), la librairie partagée peut être utilisé avec deux exécutables : `gsc` et `gsx`. Le premier est identique à `gs`. Le deuxième, `gsx`, utilise en sortie un périphérique d'affichage s'appuyant sur un widget GTK+. 
+Pour lancer la compilation de la librairie partagée **Ghostscript**, nous exécuterons la commande `make so` dans le terminal. Pour nettoyer les fichiers de compilation, nous avons la commande `make soclean`. Les librairies compilées sont disponibles dans le dossier `sobin`. Sous Linux, nous trouverons des fichiers avec extension `so`. Par exemple pour la version 10.02, nous aurons la librairie `libgs.so.10.02`, et deux liens symboliques vers la librairie (`libgs.so` et `libgs.so.10`). Sous MacOs, les librairies auront une extension `dylib`. Pour la version 10.02 nous aurons la librairie `libgs.dylib.10.02` et deux liens symboliques (`libgs.dylib.10.02` ou `libgs.dylib.10`). Contrairement à l'exécutable `gs` (qui intègre la librairie dans l'exécutable), la librairie partagée peut être utilisé avec deux exécutables : `gsc` et `gsx`. Le premier est identique à `gs`. Le deuxième, `gsx`, utilise en sortie un périphérique d'affichage s'appuyant sur un widget GTK+.
 
 ```bash
 % gsc -v
@@ -962,7 +946,7 @@ GPL Ghostscript 10.02.1 (2023-11-01)
 Copyright (C) 2023 Artifex Software, Inc.  All rights reserved.
 ```
 
-Pour installer localement la librairie partagée nous exécuterons en mode super utilisateur `sudo make install-so` dans le terminal.
+Pour installer localement la librairie partagée nous exécuterons en mode super utilisateur `sudo make install-so` dans le Terminal.
 
 <h3 id="depot-distant">Dépôt distant</h3>
 
@@ -985,7 +969,7 @@ Nous devons exécuter `autogen.sh` pour préparer localement le dépôt. Sous Ma
 % brew install autoconf automake
 ```
 
-Il nous reste à nous placer à la racine du dépôt local, et d'exécuter successivement 
+Il nous reste à nous placer à la racine du dépôt local, et d'exécuter successivement les commandes suivantes :
 
 ```bash
 gilles@MBP-de-Gilles % cd ghostpdl
@@ -1005,5 +989,5 @@ see the file COPYING for details.
 GS>quit
 ```
 
-Pour synchroniser localement avec le dépôt distant nous exécuterons à la racine du dépôt local la commande `git pull` dans le terminal.
+Pour synchroniser localement avec le dépôt distant nous exécuterons à la racine du dépôt local la commande `git pull` dans le Terminal.
 
