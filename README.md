@@ -274,19 +274,30 @@ CreationDate: D:20230718174033+02'00'
 ModDate: D:20230718174033+02'00'
 ```
 
-La date et l'heure sont définies au format `D:%Y%m%d%H%M%S`. Pour convertir une date en utilisant le langage **Python** nous procéderons ainsi :
+La date et l'heure sont définies au format `D:%Y%m%d%H%M%S` ou `D:%Y%m%d%H%M%S%z` (avec prise en compte de la Timezone). Pour convertir une date en utilisant le langage **Python** nous procéderons ainsi :
 
-```bash
-from datetime import datetime
+```python
+from datetime import datetime, timezone
+from tzlocal import get_localzone
 
 # PDF Date -> date
-datePDF=datetime.strptime('D:20230719101359','D:%Y%m%d%H%M%S')
-print(datePDF) # -> 2023-07-19 10:13:59
+dateShortPDF=datetime.strptime('D:20230719101359','D:%Y%m%d%H%M%S')
+print(dateShortPDF) # -> 2023-07-19 10:13:59
+
+# PDF Date avec Timezone -> date
+dateTimezonePDF = datetime.strptime("D:20231226132119+01'00'".replace("'",':')[:-1],'D:%Y%m%d%H%M%S%z')
+print(dateTimezonePDF) # -> 2023-12-26 13:21:19+01:00
 
 # date -> PDF Date
 dateActuelle=datetime.strftime(datetime.now(), 'D:%Y%m%d%H%M%S')
 print(dateActuelle) # -> 'D:20230719101359'
+
+# date -> PDF Date avec TimeZone
+dateTimezoneActuelle = datetime.strftime(datetime.now(timezone.utc).astimezone(get_localzone()), 'D:%Y%m%d%H%M%S%z')
+dateTimezoneActuelle = f"{dateTimezoneActuelle[:-2]}'{dateTimezoneActuelle[19:]}'"
 ```
+
+> `tzlocal` est une biblothèque non built-in. Il faut l'importer avec `pip install tzlocal`.
 
 Pour afficher le détail des documents PDF il existe une alternative avec <a href="https://freedesktop.org/wiki/Software/poppler/">Poppler</a>. C'est une bibliothèque open source spécialisée pour les documents PDF.
 
