@@ -165,7 +165,7 @@ L'exécutable de *Ghostscript* est `gs`.
 
 Pour construire l'application **Ghostscript** à partir des sources, nous procédons comme suit.
 
-* Nous commençons par récupérer un URL valide vers l'archive contant les sources. Pour cela, nous allons sur la page de <a href="https://ghostscript.com/releases/gsdnld.html">téléchargement</a> et nous récupérons le lien (par ex. <a href="https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10012/ghostscript-10.01.2.tar.gz" target="_blank" rel="noreferrer noopener">https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10012/ghostscript-10.01.2.tar.gz</a>]).
+* Nous commençons par récupérer un URL valide vers l'archive contant les sources. Pour cela, nous allons sur la page de <a href="https://ghostscript.com/releases/gsdnld.html">téléchargement</a> et nous récupérons le lien (par ex. <a href="https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10012/ghostscript-10.01.2.tar.gz" target="_blank" rel="noreferrer noopener">https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10012/ghostscript-10.01.2.tar.gz</a>).
 * Dans le terminal nous nous déplaçons dans le répertoire de téléchargement ou dans un répertoire temporaire quelconque. Nous allons décompresser dans ce répertoire les sources. Pour télécharger l'archive dans le terminal nous avons à notre disposition la commande `wget`. Si elle n'est pas disponible, tous les gestionnaires de paquets la répertorie dans leurs dépôts (par ex. `sudo apt install wget`).
 * Nous dé-archivons le fichier téléchargé. A partir d'un gestionnaire de fenêtres, en double cliquant dessus nous allons pouvoir le faire automatiquement. Dans le terminal nous utiliserons une ligne de commandes pour dé-archiver : `tar -xzf ghostscript-10.01.2.tar.gz`. Un sous répertoire est créé. Les sources sont à l'intérieur
 * Nous définissons comme répertoire en cours la racine de ce répertoire. Par ex. `cd ghostscript-10.01.2`
@@ -328,7 +328,7 @@ Les dimensions de la page (*page size*) sont en points. Il y a 72 points dans un
 
 Pour les convertir nous appliquons la formule suivante : valeur en point multipliée par 1/72 et multipliée par `2.54` pour obtenir une valeur en centimètres. Dans notre exemple, nous évaluons la largeur `532.8` soit `18.796 cm`. La hauteur sera de `22.792 cm`.
 
-$$ largeur = {\text{points} * 2.54\;\text{cm} \over 72\;\text{dpi}} = {532.9 * 2.54\;\text{cm} \over 72\;\text{dpi}} = 18.796\;\text{ cm}$$
+$$ largeur = {\text{points} * 2.54\text{ cm} \over 72\text{ dpi}} = {532.9 * 2.54\;\text{cm} \over 72\text{ dpi}} = 18.796\text{ cm}$$
 
 Pour connaître le détail des images d'un document PDF, nous exécuterons la ligne suivante :
 
@@ -346,38 +346,52 @@ page num type width height color comp bpc enc interp object ID x-ppi y-ppi size 
 
 Dans ce tableau nous identifions la largeur (pixels), hauteur (pixels), mode couleur (RGB ou niveaux de gris) et la densité de points par pouce (*inch*) en largeur (x) et en hauteur (y). Nous pouvons évaluer la largeur et la hauteur d'une image en centimètres :
 
-$$ largeur = {2220 * 2.54\;\text{cm} \over 300\;\text{dpi}} = 18.796\;\text{ cm}$$
-$$ hauteur = {2692 * 2.54\;\text{cm} \over 300\;\text{dpi}} = 22.792\;\text{ cm}$$
+$$ \text{largeur} = {2220 * 2.54\text{ cm} \over 300\text{ dpi}} = 18.796\text{ cm}$$
+$$ \text{hauteur} = {2692 * 2.54\text{ cm} \over 300\text{ dpi}} = 22.792\text{ cm}$$
 
 Pour connaître le nombre de points par pouce à partir d'une largeur en pixels et en centimètres, nous écrirons la formule suivante :
 
-$$ \text{dpi} =  {\text{Nbr pixels} * 2.54\;\text{cm} \over \text{longueur en cm}} = {2220\;\text{pixels} * 2.54\;\text{cm} \over 18.796\;\text{cm}} = 300\;\text{dpi}$$
+$$ \text{dpi} =  {\text{Nbr pixels} * 2.54\text{ cm} \over \text{longueur en cm}} = {2220\text{ pixels} * 2.54\text{ cm} \over 18.796\text{ cm}} = 300\text{ dpi}$$
 
 Pour connaître le nombre de pixels à partir des DPI et de la longueur en centimètres.
 
-$$ \text{pixels} =  {\text{dpi} * \text{longueur en cm} \over 2.54\;\text{cm}} = {300\;\text{dpi} * 18.796\;\text{cm} \over 2.54\;\text{cm}} = 2220\;\text{pixels}$$
+$$ \text{pixels} =  {\text{dpi} * \text{longueur en cm} \over 2.54\text{ cm}} = {300\text{ dpi} * 18.796\text{ cm} \over 2.54\text{ cm}} = 2220\text{ pixels}$$
 
 A partir de ces informations, nous pouvons ajuster un document PDF pour une impression optimale. Par exemple pour imprimer en 300 dpi une page (A4 21 cm x 29.7 cm) avec une image pleine plage, la résolution en pixels sera :
 
-$$ largeur = {300 * 21\;\text{cm} \over 2.54\;\text{cm}} = 2480\;\text{pixels}$$ 
-$$ hauteur = {300 * 29.7\;\text{cm} \over 2.54\;\text{cm}} = 3508\;\text{pixels}$$
+$$ \text{largeur} = {300 * 21\text{ cm} \over 2.54\text{ cm}} = 2480\text{ pixels}$$ 
+$$ \text{hauteur} = {300 * 29.7\text{ cm} \over 2.54\text{ cm}} = 3508\text{ pixels}$$
 
 
 > Pour aller plus loin sur le sujet, pour une visualisation optimum sur un écran spécifique (je pense notamment à une liseuse ou une > tablette), il faut évaluer la résolution idéale.
 >
-> Par exemple pour un écran 24" full hd (1920 x 1080) nous aurons une densité de pixels de 92 [PPI](<a href="https://en.wikipedia.org/wiki/> Pixel_density">https://en.wikipedia.org/wiki/Pixel_density</a>) (*Pixels per inch*).
+> Par exemple pour un écran 24" full hd (1920 x 1080) nous aurons une densité de pixels de 92 <a href="https://en.wikipedia.org/wiki/> Pixel_density">PPI</a> (*Pixels per inch*).
 >
-> $$ ppi = {\text{largeur en pixels} \over \text{largeur de l'écran en pouce (inch)}} $$
+> $$ \text{ppi} = {\text{largeur en pixels} \over \text{largeur de l'écran en pouce (inch)}} $$
 >
 > Attention, il s'agit de la largeur d'un écran en pouce, et non pas de la diagonale. Par exemple pour un écran <a href="https://www.> displayspecifications.com/en/model-width/b4452703">Huawei MateView 28.2"</a> nous avons approximativement une largeur de 23.95 pouces pour > une résolution horizontale de 3840 pixels.
 >
-> $$ ppi = {3840\;\text{pixels} \over 23.95\;\text{pouce (inch)}} = 160 \;\text{ppi} $$
+> $$ \text{ppi} = {3840\text{ pixels} \over 23.95\text{ pouce (inch)}} = 160 \text{ ppi} $$
 >
 > Pour un liseuse, par exemple une Amazon Kindle Scribe 10.2" (1860x2480 pixels), nous avons une densité de 300 PPI. Pour récupérer la largeur > en pouce, nous appliquerons la formule suivante :
 >
-> $$ largeur en pouces = {\text{largeur en pixels} \over \text{ppi}} = {1860\over300} = 6.2"$$
+> $$ \text{largeur en pouces} = {\text{largeur en pixels} \over \text{ppi}} = {1860\over300} = 6.2"$$
 >
-> Pour obtenir une longueur en centimètre, nous multiplierons une valeur en pouces par 2.54.
+> Pour obtenir une longueur en centimètre, nous devons multiplier une valeur en pouces par 2.54 cm.
+>
+> Ces formules peuvent également servir pour évaluer les dimensions idéales en pixels d'une image pour une impression en 300 dpi sur du papier en 10 x 15 cm :
+> 
+> $$ \text{largeur en pixels} = { 300 \text{ dpi} * 10 \text{ cm} \over 2.54 \text{ cm} } = 1181 \text{ pixels}$$
+> $$ \text{hauteur en pixels} = { 300 \text{ dpi} * 15 \text{ cm} \over 2.54 \text{ cm} } = 1772 \text{ pixels}$$
+>
+> La résolution en mégapixels de cette image est évaluée avec la formule suivante :
+>
+> $$ \text{résolution en mpx} = {{1181\text{ pixels} * 1772\text{ pixels}} \over 1000000\text{ pixels}} = 2.10 \text{ mégapixels}$$
+> 
+> Inversement pour connaître à partir des dimensions en pixels d'une photo, nous pouvons calculer pour une valeur de DPI la dimension d'impression maximale. Par exemple pour un fichier JPEG issu d'un boitier Sony ILCE-7M4 de 33 mpx (7008 × 4672), les dimensions à 200 DPI sont :
+>
+> $$ \text{largeur en cm} = { 7008 \text{ dpi} * 2.54\text{ cm} \over 200\text{ dpi} } = 89\text{ cm}$$
+> $$ \text{hauteur en cm} = { 4672 \text{ dpi} * 2.54\text{ cm} \over 200\text{ dpi} } = 59\text{ cm}$$
 
 <h3 id="modifier-les-metadatas">Modifier les métadatas</h3>
 
@@ -434,7 +448,7 @@ Pour définir un mot de passe à l'ouverture d'un fichier nous utiliserons les o
 
 Les documents PDF peuvent être protégés en lecture, mais il est également possible certaines actions. Il est possible d'interdire l'impression d'un document (même si on peut toujours imprimer une copie d'écran) ou la modification.
 
-Pour les possesseurs de MacOS ces permissions sont visibles dans l'inspecteur (⌘I). 
+Pour les possesseurs de MacOS ces permissions sont visibles dans l'inspecteur (⌘I).
 
 <figure style="text-align:center;"><img src="img/image-2-832x480.png" alt="Autorisations dans Aperçu (MacOS)" style="width:500px;"/></figure>
 
@@ -491,26 +505,26 @@ Un document PDF/A (*Portable Document Format Archivable*) est une variante norma
 
 Une propriété `-dAutoRotatePages=` a pour mission d'activer ou non l'auto-rotation. Si nous lui passons en valeur `/PageByPage` ou `/All`, les pages seront redressées automatiquement, et ce quelque soit l'orientation, de manière à faciliter la lecture. Par contre, cela ne modifiera pas l'orientation de la page. Cela ne joue que sur l'affichage. Pour désactiver l'auto-rotation nous affecterons la valeur `/None`. Dans ce cas la valeur affectée à `setpagedevice` est utilisée.
 
-Pour changer physiquement l'orientation des pages nous devons ajouter du code Postscript au document. Pour cela, nous allons utiliser la commande `-c ">>/Orientation {orientation}>> setpagedevice"` avec `{orientation}` représentée par une valeur :
+Pour changer physiquement l'orientation des pages nous devons ajouter du code **Postscript** au document. Pour cela, nous allons utiliser la commande `-c ">>/Orientation {orientation}>> setpagedevice"` avec `{orientation}` représentée par une valeur :
 
 * `0` pour aucune rotation (portrait)
-* `1` pour 90° vers en sens inverse des aiguilles d'une montre (landscape ou paysage)
-* `2` pour 180° (upside down ou à l'envers)
-* `3` pour 90° dans le sens des aiguilles d'une montre (seascape)
+* `1` pour 90° vers en sens inverse des aiguilles d'une montre (*landscape* ou paysage)
+* `2` pour 180° (*upside down* ou à l'envers)
+* `3` pour 90° dans le sens des aiguilles d'une montre (*seascape*)
 
 ```bash
 % /opt/local/bin/gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dAutoRotatePages=/None -dCompatibilityLevel=2.0 -sOutputFile="/Users/gilles/Downloads/pdf_reduce/dossier.pdf" -c "<</Orientation 3>> setpagedevice" -f "/Users/gilles/Downloads/pdf/dossier.pdf"
 ```
 
-L'injection du code Postscript doit se faire avant l'importation du fichier source. Le commutateur `-f` doit précéder le fichier source.
+L'injection du code **Postscript** doit se faire avant l'importation du fichier source. Le commutateur `-f` doit précéder le fichier source.
 
 <h3 id="redimensionnement">Redimensionnement</h3>
 
 Un document PDF peut comporter des pages de dimensions différentes. Si à l'affichage cela ne pose pas de problème, l'impression d'un document va générer des difficultés. Le bac d'alimentation ne comporte en général qu'un seul format de papier.
 
-Avec Ghostscript nous avons deux approches pour redimensionner les pages.
+Avec **Ghostscript** nous avons deux approches pour redimensionner les pages.
 
-La première consiste à utiliser un format pré-existant comme par exemple le format A4. Les formats sont transmis en argument de l'option `-sDEFAULTPAPERSIZE=`.
+La première consiste à utiliser un format pré-existant comme par exemple le format *A4*. Les formats sont transmis en argument de l'option `-sDEFAULTPAPERSIZE=`.
 
 ```bash
 % /opt/local/bin/gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -sPAPERSIZE=a4 -dFIXEDMEDIA -dPDFFitPage -dCompatibilityLevel=2.0 -sOutputFile="/Users/gilles/Downloads/pdf_reduce/dossier.pdf" "/Users/gilles/Downloads/pdf/dossier.pdf"
@@ -572,7 +586,7 @@ La deuxième approche consiste à définir les dimensions en utilisant les optio
 % /opt/local/bin/gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dDEVICEWIDTHPOINTS=283.46 -dDEVICEHEIGHTPOINTS=283.46 -dFIXEDMEDIA -dPDFFitPage -dCompatibilityLevel=2.0 -sOutputFile="/Users/gilles/Downloads/pdf_reduce/dossier.pdf" "/Users/gilles/Downloads/pdf/dossier.pdf"
 ```
 
-$$ largeur = {10 \;\text{cm} * 72 \;\text{points} \over 2.54\;\text{cm}} = 283.46\;\text{points}$$
+$$ largeur = {10 \text{ cm} * 72 \text{ points} \over 2.54\text{ cm}} = 283.46\text{ points}$$
 
 Il faut pas oublier d'ajouter les options `-dFIXEDMEDIA -dPDFFitPage` pour adapter les pages au format.
 
@@ -673,7 +687,7 @@ Pour les utilisateurs de MacOS (et Linux) il est toujours possible d'intégrer u
 
 <figure style="text-align:center;"><img src="img/image-1-1024x683.png" alt="Ghostscript pdf adobe python"  style="width:600px"/></figure>
 
-Nous ajoutons ensuite le code suivant à la fin du fichier. Pour sauvegarder nous faisons les touches CTRL+X puis Y et entrée.
+Nous ajoutons ensuite le code suivant à la fin du fichier. Pour sauvegarder nous appuyons sur les touches `CTRL+X` puis `Y` et entrée.
 
 ```bash
 pdfcompress()
@@ -682,7 +696,7 @@ pdfcompress()
 }
 ```
 
-Pour essayer, nous ouvrons un nouveau terminal. Nous tapons simplement `pdfcompress` suivi du nom du fichier à compresser.
+Pour essayer, nous ouvrons un nouveau Terminal. Nous tapons simplement `pdfcompress` suivi du nom du fichier à compresser.
 
 <h3 id="noir-et-blanc">Noir et blanc</h3>
 
