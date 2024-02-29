@@ -27,11 +27,6 @@ Les fichiers Adobe PDF sont devenus une norme pour les échanges de documents. C
         * <a href="#automatisation-powershell">Windows Powershell</a>
         * <a href="#automatisation-shell-mac">Shell MacOS/Linux</a>
     * <a href="#automatisation-python">Avec Python</a>
-        * <a href="http://automatisation-installation-d-un-environnement">Installation d'un environnement</a>
-            * <a href="#automatisation-windows">Windows</a>
-            * <a href="#automatisation-macos">MacOs</a>
-        * <a href="#automatisation-python-code-complet">Code complet</a>
-        * <a href="#automatisation-python-utilisation">Utilisation</a>
 * <a href="#compiler-les-sources">Compiler les sources</a>
     * <a href="#archive-tar">Archive TAR</a>
     * <a href="#depot-distant">Dépôt distant</a>
@@ -193,7 +188,7 @@ Pour ce qui nous concerne il est plus intéressant de l'utiliser en mode shell, 
 | **Commandes** | **Descriptions** |
 | ------------- | :--------------- |
 | **gs \-h**                        | Affiche l'aide et la configuration de base, notamment la liste des périphériques disponibles \(device\)\.                                                                                                                                                                                                                                                                                                                                                    |
-| **\-q ou \-dQUIET**               | Supprime l'affichage des messages de démarrage \(version, copyright\)                                                                                                                                                                                                                                                                                                                                                                                        |
+| **\-q** ou **\-dQUIET**               | Supprime l'affichage des messages de démarrage \(version, copyright\)                                                                                                                                                                                                                                                                                                                                                                                        |
 | **\-f**                           | Définir un fichier en entrée                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | **\-d**                           | Affecte une valeur à un paramètre interne\. Cette valeur doit avoir un type de données reconnue par Ghostscript comme par exemple false, true  ou null\. Ce peut être également une valeur numérique\.                                                                                                                                                                                                                                                       |
 | **\-s**                           | Affecte sous forme de texte une valeur à un paramètre interne                                                                                                                                                                                                                                                                                                                                                                                                |
@@ -328,7 +323,7 @@ Les dimensions de la page (*page size*) sont en points. Il y a 72 points dans un
 
 Pour les convertir nous appliquons la formule suivante : valeur en point multipliée par 1/72 et multipliée par `2.54` pour obtenir une valeur en centimètres. Dans notre exemple, nous évaluons la largeur `532.8` soit `18.796 cm`. La hauteur sera de `22.792 cm`.
 
-$$ largeur = {\text{points} * 2.54\text{ cm} \over 72\text{ dpi}} = {532.9 * 2.54\;\text{cm} \over 72\text{ dpi}} = 18.796\text{ cm}$$
+$$ largeur = {\text{points} * 2.54\text{ cm} \over 72\text{ dpi}} = {532.9 * 2.54\text{cm} \over 72\text{ dpi}} = 18.796\text{ cm}$$
 
 Pour connaître le détail des images d'un document PDF, nous exécuterons la ligne suivante :
 
@@ -347,6 +342,7 @@ page num type width height color comp bpc enc interp object ID x-ppi y-ppi size 
 Dans ce tableau nous identifions la largeur (pixels), hauteur (pixels), mode couleur (RGB ou niveaux de gris) et la densité de points par pouce (*inch*) en largeur (x) et en hauteur (y). Nous pouvons évaluer la largeur et la hauteur d'une image en centimètres :
 
 $$ \text{largeur} = {2220 * 2.54\text{ cm} \over 300\text{ dpi}} = 18.796\text{ cm}$$
+
 $$ \text{hauteur} = {2692 * 2.54\text{ cm} \over 300\text{ dpi}} = 22.792\text{ cm}$$
 
 Pour connaître le nombre de points par pouce à partir d'une largeur en pixels et en centimètres, nous écrirons la formule suivante :
@@ -359,11 +355,11 @@ $$ \text{pixels} =  {\text{dpi} * \text{longueur en cm} \over 2.54\text{ cm}} = 
 
 A partir de ces informations, nous pouvons ajuster un document PDF pour une impression optimale. Par exemple pour imprimer en 300 dpi une page (A4 21 cm x 29.7 cm) avec une image pleine plage, la résolution en pixels sera :
 
-$$ \text{largeur} = {300 * 21\text{ cm} \over 2.54\text{ cm}} = 2480\text{ pixels}$$ 
-$$ \text{hauteur} = {300 * 29.7\text{ cm} \over 2.54\text{ cm}} = 3508\text{ pixels}$$
+$$ \text{largeur} = {300\text{ dpi}* 21\text{ cm} \over 2.54\text{ cm}} = 2480\text{ pixels}$$ 
 
+$$ \text{hauteur} = {300\text{ dpi}* 29.7\text{ cm} \over 2.54\text{ cm}} = 3508\text{ pixels}$$
 
-> Pour aller plus loin sur le sujet, pour une visualisation optimum sur un écran spécifique (je pense notamment à une liseuse ou une > tablette), il faut évaluer la résolution idéale.
+> Pour aller plus loin sur le sujet, pour une visualisation optimum sur un écran spécifique (je pense notamment à une liseuse ou une tablette), il faut évaluer la résolution idéale.
 >
 > Par exemple pour un écran 24" full hd (1920 x 1080) nous aurons une densité de pixels de 92 <a href="https://en.wikipedia.org/wiki/> Pixel_density">PPI</a> (*Pixels per inch*).
 >
@@ -375,13 +371,14 @@ $$ \text{hauteur} = {300 * 29.7\text{ cm} \over 2.54\text{ cm}} = 3508\text{ pix
 >
 > Pour un liseuse, par exemple une Amazon Kindle Scribe 10.2" (1860x2480 pixels), nous avons une densité de 300 PPI. Pour récupérer la largeur > en pouce, nous appliquerons la formule suivante :
 >
-> $$ \text{largeur en pouces} = {\text{largeur en pixels} \over \text{ppi}} = {1860\over300} = 6.2"$$
+> $$ \text{largeur en pouces} = {\text{largeur en pixels} \over \text{ppi}} = {1860\over300} = 6.2 pouces $$
 >
 > Pour obtenir une longueur en centimètre, nous devons multiplier une valeur en pouces par 2.54 cm.
 >
 > Ces formules peuvent également servir pour évaluer les dimensions idéales en pixels d'une image pour une impression en 300 dpi sur du papier en 10 x 15 cm :
 > 
 > $$ \text{largeur en pixels} = { 300 \text{ dpi} * 10 \text{ cm} \over 2.54 \text{ cm} } = 1181 \text{ pixels}$$
+> 
 > $$ \text{hauteur en pixels} = { 300 \text{ dpi} * 15 \text{ cm} \over 2.54 \text{ cm} } = 1772 \text{ pixels}$$
 >
 > La résolution en mégapixels de cette image est évaluée avec la formule suivante :
@@ -391,6 +388,7 @@ $$ \text{hauteur} = {300 * 29.7\text{ cm} \over 2.54\text{ cm}} = 3508\text{ pix
 > Inversement pour connaître à partir des dimensions en pixels d'une photo, nous pouvons calculer pour une valeur de DPI la dimension d'impression maximale. Par exemple pour un fichier JPEG issu d'un boitier Sony ILCE-7M4 de 33 mpx (7008 × 4672), les dimensions à 200 DPI sont :
 >
 > $$ \text{largeur en cm} = { 7008 \text{ dpi} * 2.54\text{ cm} \over 200\text{ dpi} } = 89\text{ cm}$$
+> 
 > $$ \text{hauteur en cm} = { 4672 \text{ dpi} * 2.54\text{ cm} \over 200\text{ dpi} } = 59\text{ cm}$$
 
 <h3 id="modifier-les-metadatas">Modifier les métadatas</h3>
