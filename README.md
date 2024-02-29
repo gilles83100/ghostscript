@@ -30,6 +30,7 @@ Les fichiers Adobe PDF sont devenus une norme pour les échanges de documents. C
 * <a href="#compiler-les-sources">Compiler les sources</a>
     * <a href="#archive-tar">Archive TAR</a>
     * <a href="#depot-distant">Dépôt distant</a>
+    * <a href="#ms-visual-studio-code-2022">Windows</a>
 
 <h2 id="utilisation-dans-le-terminal">Utilisation dans le terminal</h2>
 
@@ -1014,3 +1015,53 @@ GS>quit
 
 Pour synchroniser localement avec le dépôt distant nous exécuterons à la racine du dépôt local la commande `git pull` dans le Terminal.
 
+```bash
+gilles@MBP-de-Gilles ghostpdl % git pull
+```
+
+> Pour les utilisateurs de Visual Studio Code, pour référencer la librairie *libgs*, nous pouvons ajouter à une variable d'environnement `GSAPI_LIB` au fichier de configuration. Cette variable pointera sur le fichier.
+>
+>  ```json
+>  {
+>      // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
+>      // Pointez pour afficher la description des attributs existants.
+>      // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
+>      "version": "0.2.0",
+>      "configurations": [
+>          {
+>              "name": "Débogueur Python : Fichier actuel",
+>              "type": "debugpy",
+>              "request": "launch",
+>              "program": "${file}",
+>              "console": "integratedTerminal",
+>              "env": {
+>                  "GSAPI_LIB":"/Users/gilles/Downloads/ghostscript-10.02.1/sobin/libgs.dylib.10.02"
+>              }
+>          }
+>      ]
+>  }
+>  ```
+
+<h3 id="ms-visual-studio-code-2022">Windows</h3>
+
+Dans le dossier `Windows` de l'archive Ghostscript nous pouvons ouvrir dans Microsoft Visual Studio 2022 le fichier solution `GhostPDL.sln`. Pour obtenir la librairie nous devons générer la solution complète (Menu Générer -> Générer la solution) ou `Ctrl+Maj+B`. Par défaut, la version *debug* sera générée. Les fichiers résultants se trouveront dans le dossier `debugbin`.
+
+Avant d'exécuter le script Python, nous devons définir une variable d'environnement `GSAPI_LIB`. Dans Powershell nous procéderons comme cela :
+
+```powershell
+PS > $env:GSAPI_LIB="C:\Users\gilles\Downloads\ghostscript-10.02.1\debugbin\gsdll64.dll"
+```
+
+Pour obtenir la liste des variables d'environnement dans Powershell nous utiliseront la ligne qui suit :
+
+```powershell
+PS > dir env:
+```
+
+Dans l'Invite de commandes (cmd) nous utiliserons l'instruction `set` :
+
+```cmd
+> set GSAPI_LIBDIR=C:\Users\gilles\Downloads\ghostscript-10.02.1\debugbin\gsdll64.dll
+```
+
+Pour vérifier la présence de la variable nous utilisons sans argument l'instruction `set`.

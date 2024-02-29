@@ -83,16 +83,6 @@ def get_infos(dossierSource, password="", csvFilename=None):
                     continue
                 if re.search('requires a password for access', str(stderr)) is not None:
                     continue
-                    # while True:
-                    #     password = input("Le fichier à besoin d'un mot de passe?") #simpledialog.askstring("Importation", "Le fichier à besoin d'un mot de passe?")
-                    #     if password=='':
-                    #         continue
-                    #     cmd = [ghostscript, "-dQUIET", "-dBATCH", "-dNODISPLAY", "-dNOPAUSE", "-dPDFINFO", "-dFirstPage=1","-dLastPage=1",f"-sPDFPassword={password}", source]
-                    #     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                    #     stdout, stderr = proc.communicate()
-                    #     # if re.search('requires a password for access', str(stderr)) is None:
-                    #     #     infos['password'] = password
-                        #     break
                 ret = re.search('(?P<pages>[0-9]{1,})',str(stderr))
                 if 'pages' in ret.groupdict():
                     pages = int(ret.group('pages'))
@@ -146,7 +136,7 @@ def get_infos(dossierSource, password="", csvFilename=None):
     if csvFilename:
         import csv
         with open(csvFilename, 'w', newline='') as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter='\t') #, quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            spamwriter = csv.writer(csvfile, delimiter='\t')
             spamwriter.writerows([headers])
             for line in [r for r in table if r != '\x01']:
                 spamwriter.writerows([line])

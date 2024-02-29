@@ -142,6 +142,7 @@ gilles@MBP-de-Gilles ghostpdl % git pull
 >      ]
 >  }
 >  ```
+
 ### Windows
 
 Dans le dossier `Windows` de l'archive Ghostscript nous pouvons ouvrir dans Microsoft Visual Studio 2022 le fichier solution `GhostPDL.sln`. Pour obtenir la librairie nous devons générer la solution complète (Menu Générer -> Générer la solution) ou `Ctrl+Maj+B`. Par défaut, la version *debug* sera générée. Les fichiers résultants se trouveront dans le dossier `debugbin`.
@@ -158,14 +159,13 @@ Pour obtenir la liste des variables d'environnement dans Powershell nous utilise
 PS > dir env:
 ```
 
-Dans Invite de commandes (cmd) nous utiliserons l'instruction `set` :
+Dans l'Invite de commandes (cmd) nous utiliserons l'instruction `set` :
 
 ```cmd
 > set GSAPI_LIBDIR=C:\Users\gilles\Downloads\ghostscript-10.02.1\debugbin\gsdll64.dll
 ```
 
 Pour vérifier la présence de la variable nous utilisons sans argument l'instruction `set`.
-
 
 ## Installation du script Python
 
