@@ -186,7 +186,7 @@ En résumé, nous pouvons exécuter les commandes suivantes :
 
 Pour ce qui nous concerne il est plus intéressant de l'utiliser en mode shell, sans interaction. A la suite du nom de la commande **Ghostscript** (par ex. `gs`) nous saisirons une suite de paramètres et d'arguments, ainsi que le nom des fichiers à traiter en entrée et en sortie.
 
-| **Commandes** | **Descriptions** |
+| <div style="width:200px">**Commandes**</div> | **Descriptions** |
 | ------------- | :--------------- |
 | **gs \-h**                        | Affiche l'aide et la configuration de base, notamment la liste des périphériques disponibles \(device\)\.                                                                                                                                                                                                                                                                                                                                                    |
 | **\-q** ou **\-dQUIET**               | Supprime l'affichage des messages de démarrage \(version, copyright\)                                                                                                                                                                                                                                                                                                                                                                                        |

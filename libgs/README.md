@@ -525,7 +525,7 @@ Nous pouvons aussi modifier les autorisations d'usage. Par exemple, le document 
 
 Le tableau qui suit récapitule les différentes autorisations.
 
-Autorisations | print | change | extract | fill | copy | annotation
+Autorisations | <div style="width:80px">print</div> | <div style="width:80px">change</div> | <div style="width:80px">extract</div> | <div style="width:80px">fill</div> | <div style="width:80px">copy</div> | <div style="width:80px">annotation</div>
 --- | :---: | :---: | :---: | :---: | :---: | :---: | 
 impression | ✓ | | | | | | 
 Copie du texte ou des graphisme | | | ✓ | | | |
