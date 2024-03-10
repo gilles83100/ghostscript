@@ -157,7 +157,7 @@ gilles@debian:~$ sudo apt install ghostscript
 $ sudo yum install ghostscript
 ```
 
-L'exécutable de *Ghostscript* est `gs`.
+L'exécutable de **Ghostscript** est `gs`.
 
 Pour construire l'application **Ghostscript** à partir des sources, nous procédons comme suit.
 
@@ -462,7 +462,6 @@ Pour les possesseurs de MacOS ces permissions sont visibles dans l'inspecteur (�
 
 <figure style="text-align:center;"><img src="img/image-2-832x480.png" alt="Autorisations dans Aperçu (MacOS)" style="width:500px;"/></figure>
 
-
 Techniquement, pour protéger un document PDF en modulant les permissions en fonction des actions autorisées, nous devons assigner à la variable `Permissions` une valeur sur 32 bits. Cette valeur est le résultat de l'activation ou non des bits. Le 1er bit est à droite.
 
 | **Bits** | **Descriptions** |
@@ -479,7 +478,7 @@ Techniquement, pour protéger un document PDF en modulant les permissions en fon
 | **12** | Pour activer l'impression haute résolution mettre à 1 |
 | **13\-32** | Mettre à 0 pour le gestionnaire de sécurité révision 3, sinon à 1 pour la révision 2\. |
 
-Il est possible de construire la valeur à l'aide de Python. Dans le REPL, nous pouvons saisir une valeur binaire (les bits sont précédés des caractères `0b`). Par exemple ici nous allons autoriser tout en activant les bits 3 à 6, ainsi que les bits 9 et 10. 
+Il est possible de construire la valeur à l'aide de Python. Dans le REPL, nous pouvons saisir une valeur binaire (les bits sont précédés des caractères `0b`). Par exemple ici nous allons autoriser tout en activant les bits 3 à 6, ainsi que les bits 9 et 10.
 
 ```bash
 % python3
