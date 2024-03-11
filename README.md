@@ -65,7 +65,7 @@ GS>
 
 <h4 id="terminal-installation-macos">macOS</h4>
 
-Pour installer **Ghostscript** dans sur **macOS** nous allons passer par le gestionnaire de package <a href="https://brew.sh/index_fr" target="_blank" rel="noreferrer noopener">brew</a>
+Pour installer **Ghostscript** sur **macOS** nous allons passer par le gestionnaire de package <a href="https://brew.sh/index_fr" target="_blank" rel="noreferrer noopener">brew</a>
 
 ```bash
 % brew update
