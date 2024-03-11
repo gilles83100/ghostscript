@@ -165,7 +165,7 @@ Pour construire l'application **Ghostscript** à partir des sources, nous procé
 * Dans le terminal nous nous déplaçons dans le répertoire de téléchargement ou dans un répertoire temporaire quelconque. Nous allons décompresser dans ce répertoire les sources. Pour télécharger l'archive dans le terminal nous avons à notre disposition la commande `wget`. Si elle n'est pas disponible, tous les gestionnaires de paquets la répertorie dans leurs dépôts (par ex. `sudo apt install wget`).
 * Nous dé-archivons le fichier téléchargé. A partir d'un gestionnaire de fenêtres, en double cliquant dessus nous allons pouvoir le faire automatiquement. Dans le terminal nous utiliserons une ligne de commandes pour dé-archiver : `tar -xzf ghostscript-10.01.2.tar.gz`. Un sous répertoire est créé. Les sources sont à l'intérieur
 * Nous définissons comme répertoire en cours la racine de ce répertoire. Par ex. `cd ghostscript-10.01.2`
-* A l'intérieur, nous exécutons le fichier de configuration `./configure`. Ce fichier va préparer la compilation à partir des données collectés dans le système (architecture par exemple). Un fichier `makefile` est créé.
+* A l'intérieur, nous exécutons le fichier de configuration `./configure`. Ce fichier va préparer la compilation à partir des données collectées dans le système (architecture par exemple). Un fichier `makefile` est créé.
 * Pour lancer la compilation du code nous tapons la commande `make`. Cette opération peut être plus ou moins longue en fonction de la puissance de l'ordinateur.
 * Enfin, pour installer le code compilé dans notre système, nous exécuterons en mode super utilisateur la commande `sudo make install`
 
